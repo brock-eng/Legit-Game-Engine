@@ -6,6 +6,8 @@ namespace legit_engine
 {
    namespace components
    {
+
+      // 2D Vector math class
       class Vec2
       {
       public: 

@@ -2,6 +2,10 @@
 
 #include <iostream>
 
+/*
+   Scrapped templated matrix class
+*/
+
 namespace legit_engine {
    namespace components {
 
@@ -38,6 +42,7 @@ namespace legit_engine {
          }
 
          matrix& multiply() {}
+
          void print()
          {
             for (int r = 0; r < rowSize; r++)

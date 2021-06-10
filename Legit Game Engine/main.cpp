@@ -9,7 +9,11 @@
 
 #include "src/graphics/window.h"
 #include "src/Components/Sys.h"
-#include "src/graphics/shaders.h"
+#include "src/graphics/Shaders/shaders.h"
+
+#include "src/graphics/Buffers/buffer.h"
+#include "src/graphics/Buffers/indexbuffer.h"
+#include "src/graphics/Buffers/vertexarray.h"
 
 #define VAR_NAME(v) (#v)
 
@@ -21,38 +25,52 @@ int main()
    using namespace graphics;
    using namespace components;
    using namespace Shaders;
+   using namespace buffers;
 
    int screenWidth = 800, screenHeight = 600;
    
-   Window gameWindow("Legit Engine", screenWidth, screenHeight);
+   Window gameWindow("We out here son", screenWidth, screenHeight);
    glClearColor(0.2f, 0.3f, 0.8f, 5.0f);
    
    double mouseX = 0, mouseY = 0;
 
-   float positions[6] =
+   GLfloat vertices[] =
    {
-      -0.5f,  0.5f,
-       0.5f, -0.5f,
-      -0.5f, -0.5f,
+      0, 0, 0,
+      0, 0.5, 0,
+      0.35, 0.5, 10,
+      0.45, -0.5, 1,
+      0.35, -0.4, 0,
+      -0.35, -0.5, 0
    };
 
-   unsigned int buffer;
-   glGenBuffers(1, &buffer);
-   glBindBuffer(GL_ARRAY_BUFFER, buffer);
-   glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), positions, GL_STATIC_DRAW);
+   GLushort indices[] =
+   {
+      0, 1, 2,
+      3, 4, 5
+   };
 
-   glEnableVertexAttribArray(0);
-   glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
+   VertexArray va;
+   Buffer* vb = new Buffer(vertices, 6 * 3, 3);
+   IndexBuffer ibo(indices, 6);
+
+   va.AddBuffer(vb, 0);
 
    Shader shaderSys("src/graphics/shaders/basic.shader");
    shaderSys.Enable();
 
    // TestMatrices();
+   va.Bind();
+   ibo.Bind();
+   glDrawElements(GL_TRIANGLES, ibo.GetCount(), GL_UNSIGNED_SHORT, 0);
 
+   gameWindow.Update();
+#if 1
    while (!gameWindow.Closed()) 
    {
       gameWindow.Clear();
-      glDrawArrays(GL_TRIANGLES, 0, 3);
+      glDrawElements(GL_TRIANGLES, ibo.GetCount(), GL_UNSIGNED_SHORT, 0);
+
       gameWindow.Update();
       if (gameWindow.KeyPressed(GLFW_KEY_SPACE))
       {
@@ -66,11 +84,12 @@ int main()
       {
          std::cout << "pressed:" << mouseX << " " << mouseY << std::endl;
       }
+      
       gameWindow.getMousePosition(mouseX, mouseY);
       //gameWindow.printXYPos();
 
       //std::cout << "Running" << std::endl;
       
    }
-
+#endif
 }

@@ -18,8 +18,7 @@ namespace legit_engine
          this->x = x;
          this->y = y;
       }
-
-
+      
       Vec2& Vec2::add(const Vec2& v2) 
       {
          x += v2.x;

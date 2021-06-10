@@ -151,7 +151,10 @@
     <ClCompile Include="src\Components\vec2.cpp" />
     <ClCompile Include="src\Components\vec3.cpp" />
     <ClCompile Include="src\Components\vec4.cpp" />
-    <ClCompile Include="src\graphics\shaders.cpp" />
+    <ClCompile Include="src\graphics\Buffers\buffer.cpp" />
+    <ClCompile Include="src\graphics\Buffers\indexbuffer.cpp" />
+    <ClCompile Include="src\graphics\Buffers\vertexarray.cpp" />
+    <ClCompile Include="src\graphics\Shaders\shaders.cpp" />
     <ClCompile Include="src\graphics\window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -161,7 +164,10 @@
     <ClInclude Include="src\Components\vec2.h" />
     <ClInclude Include="src\Components\vec3.h" />
     <ClInclude Include="src\Components\vec4.h" />
-    <ClInclude Include="src\graphics\shaders.h" />
+    <ClInclude Include="src\graphics\Buffers\buffer.h" />
+    <ClInclude Include="src\graphics\Buffers\indexbuffer.h" />
+    <ClInclude Include="src\graphics\Buffers\vertexarray.h" />
+    <ClInclude Include="src\graphics\Shaders\shaders.h" />
     <ClInclude Include="src\graphics\window.h" />
   </ItemGroup>
   <ItemGroup>

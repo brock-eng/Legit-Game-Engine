@@ -15,7 +15,7 @@ namespace legit_engine {
             elements[i] = 0.0f;
       }
 
-      // initializes a diagonal matrix of input num
+      // initializes a diagonal matrix of input number
       mat4::mat4(float diagonal)
       {
          for (int i = 0; i < SIZE * SIZE; i++)
