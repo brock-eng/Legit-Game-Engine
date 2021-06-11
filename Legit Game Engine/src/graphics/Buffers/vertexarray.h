@@ -18,7 +18,7 @@ namespace legit_engine {
          VertexArray();
          ~VertexArray();
          void AddBuffer(Buffer* buffer, GLuint index);
-         void Bind() const;
-         void Unbind() const;
+         void bind() const;
+         void unbind() const;
       };
 } }

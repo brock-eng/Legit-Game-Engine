@@ -15,11 +15,11 @@ namespace legit_engine {
          glBindBuffer(GL_ARRAY_BUFFER, 0);
       }
 
-      void Buffer::Bind() const
+      void Buffer::bind() const
       {
          glBindBuffer(GL_ARRAY_BUFFER, m_BufferID);
       }
-      void Buffer::Unbind() const
+      void Buffer::unbind() const
       {
          glBindBuffer(GL_ARRAY_BUFFER, 0);
 

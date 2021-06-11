@@ -7,6 +7,8 @@
 #include <glew.h>
 #include <glfw3.h>
 
+#include <Windows.h>
+
 #include "src/graphics/window.h"
 #include "src/Components/Sys.h"
 #include "src/graphics/Shaders/shaders.h"
@@ -18,30 +20,29 @@
 #define VAR_NAME(v) (#v)
 
 
-
 int main()
 {
    using namespace legit_engine;
    using namespace graphics;
    using namespace components;
-   using namespace Shaders;
+   using namespace shaders;
    using namespace buffers;
 
    int screenWidth = 800, screenHeight = 600;
    
    Window gameWindow("We out here son", screenWidth, screenHeight);
-   glClearColor(0.2f, 0.3f, 0.8f, 5.0f);
+   // glClearColor(0.2f, 0.3f, 0.8f, 5.0f);
    
    double mouseX = 0, mouseY = 0;
 
    GLfloat vertices[] =
    {
       0, 0, 0,
-      0, 0.5, 0,
-      0.35, 0.5, 10,
-      0.45, -0.5, 1,
-      0.35, -0.4, 0,
-      -0.35, -0.5, 0
+      0, 1, 0,
+      1, 1, 0,
+      -1, -1, 0,
+      0, 0, 0, 
+      0, -1, 0
    };
 
    GLushort indices[] =
@@ -55,21 +56,31 @@ int main()
    IndexBuffer ibo(indices, 6);
 
    va.AddBuffer(vb, 0);
+   mat4 ortho = mat4::orthographic(0.0, 0.5f, 0.0f, 0.5f, -1.0f, 1.0f);
 
-   Shader shaderSys("src/graphics/shaders/basic.shader");
+   Shader shaderSys("src/graphics/shaders/light.shader");
+   //Shader shaderSys("src/graphics/shaders/basic.shader");
+
    shaderSys.Enable();
+   shaderSys.setUniformMat4("pr_matrix", ortho);
+   shaderSys.setUniformMat4("ml_matrix", mat4::translation(Vec3(0, 0.5, 0)));
+
+   shaderSys.setUniform2f("light_pos", Vec2(0, 0));
+   shaderSys.setUniform4f("colour", Vec4(1.0f, 0.0f, 0.8f, 1.0f));
+
+
 
    // TestMatrices();
-   va.Bind();
-   ibo.Bind();
-   glDrawElements(GL_TRIANGLES, ibo.GetCount(), GL_UNSIGNED_SHORT, 0);
+   va.bind();
+   ibo.bind();
+   glDrawElements(GL_TRIANGLES, ibo.getCount(), GL_UNSIGNED_SHORT, 0);
 
    gameWindow.Update();
 #if 1
    while (!gameWindow.Closed()) 
    {
       gameWindow.Clear();
-      glDrawElements(GL_TRIANGLES, ibo.GetCount(), GL_UNSIGNED_SHORT, 0);
+      glDrawElements(GL_TRIANGLES, ibo.getCount(), GL_UNSIGNED_SHORT, 0);
 
       gameWindow.Update();
       if (gameWindow.KeyPressed(GLFW_KEY_SPACE))
@@ -83,11 +94,19 @@ int main()
       if (gameWindow.MouseButtonsPressed(GLFW_MOUSE_BUTTON_LEFT))
       {
          std::cout << "pressed:" << mouseX << " " << mouseY << std::endl;
+         shaderSys.setUniform1f("click", 2.0f);
       }
+      else
+         shaderSys.setUniform1f("click", 1.0f);
       
-      gameWindow.getMousePosition(mouseX, mouseY);
-      //gameWindow.printXYPos();
+      Vec2 positions = gameWindow.getMousePosition();
+      positions.x *= 2.0f / screenWidth;
+      positions.y *= -2.0f / screenHeight;
+      positions.x -= 1;
+      positions.y += 1;
 
+      shaderSys.setUniform2f("light_pos", positions);
+      gameWindow.printXYPos();
       //std::cout << "Running" << std::endl;
       
    }

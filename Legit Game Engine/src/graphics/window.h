@@ -3,6 +3,8 @@
 #include <glew.h>
 #include <glfw3.h>
 
+#include "../Components/Sys.h"
+
 namespace legit_engine {
    namespace graphics {
 
@@ -27,10 +29,12 @@ namespace legit_engine {
          void Clear() const;
          void Update();
          bool Closed() const;
-         bool KeyPressed(unsigned int keyCode);
-         bool MouseButtonsPressed(unsigned int keyCode);
-         void getMousePosition(double& X, double& Y);
-         
+         static bool KeyPressed(unsigned int keyCode);
+         static bool MouseButtonsPressed(unsigned int keyCode);
+
+         static void getMousePosition(double& X, double& Y);
+         static components::Vec2 getMousePosition();
+
          void printXYPos();
 
       private:

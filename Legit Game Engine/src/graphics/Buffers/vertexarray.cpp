@@ -20,20 +20,20 @@ namespace legit_engine {
 
       void VertexArray::AddBuffer(Buffer* buffer, GLuint index)
       {
-         VertexArray::Bind();
-         buffer->Bind();
+         VertexArray::bind();
+         buffer->bind();
          glEnableVertexAttribArray(index);
          glVertexAttribPointer(index, buffer->GetComponentCount(), GL_FLOAT, GL_FALSE, 0, 0);
-         buffer->Unbind();
-         Unbind();
+         buffer->unbind();
+         unbind();
       }
 
-      void VertexArray::Bind() const
+      void VertexArray::bind() const
       {
          glBindVertexArray(m_ArrayID);
       }
 
-      void VertexArray::Unbind() const
+      void VertexArray::unbind() const
       {
          glBindVertexArray(0);
       }

@@ -15,17 +15,17 @@ namespace legit_engine {
          glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
       }
 
-      void IndexBuffer::Bind() const
+      void IndexBuffer::bind() const
       {
          glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_BufferID);
       }
-      void IndexBuffer::Unbind() const
+      void IndexBuffer::unbind() const
       {
          glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
       }
 
-      GLuint IndexBuffer::GetCount() const { return m_Count; }
+      GLuint IndexBuffer::getCount() const { return m_Count; }
 
    }
 }

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Shaders.h"
+#include "shaders.h"
 
 namespace legit_engine {
-   namespace Shaders {
+   namespace shaders {
 
       struct ShaderSources
       {
@@ -19,22 +19,57 @@ namespace legit_engine {
       {
          m_filepath = filepath;
          ShaderSources filePaths = ParseShader(m_filepath);
-         m_shaderID = CreateShader(filePaths.VertexSource, filePaths.FragmentSource);
+         m_ShaderID = CreateShader(filePaths.VertexSource, filePaths.FragmentSource);
       }
 
       Shader::~Shader()
       {
-         glDeleteProgram(m_shaderID);
+         glDeleteProgram(m_ShaderID);
       }
 
-      void Shader::Enable()
+      void Shader::Enable() const
       {
-         glUseProgram(m_shaderID);
+         glUseProgram(m_ShaderID);
       }
 
-      void Shader::Disable()
+      void Shader::Disable() const
       {
          glUseProgram(0);
+      }
+
+      GLint Shader::GetUniformLocation(const GLchar* name)
+      {
+         return glGetUniformLocation(m_ShaderID, name);
+      }
+
+      void Shader::setUniform1f(const GLchar* name, float value)
+      {
+         glUniform1f(GetUniformLocation(name), value);
+      }
+
+      void Shader::setUniform1i(const GLchar* name, int value)
+      {
+         glUniform1f(GetUniformLocation(name), value);
+      }
+
+      void Shader::setUniform2f(const GLchar* name, const components::Vec2& vector2D)
+      {
+         glUniform2f(GetUniformLocation(name), vector2D.x, vector2D.y);
+      }
+
+      void Shader::setUniform3f(const GLchar* name, const components::Vec3& vector3D)
+      {
+         glUniform3f(GetUniformLocation(name), vector3D.x, vector3D.y, vector3D.z);
+      }
+
+      void Shader::setUniform4f(const GLchar* name, const components::Vec4& vector4D)
+      {
+         glUniform4f(GetUniformLocation(name), vector4D.x, vector4D.y, vector4D.z, vector4D.w);
+      }
+
+      void Shader::setUniformMat4(const GLchar* name, const components::mat4& matrix4X4)
+      {
+         glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, matrix4X4.elements);
       }
 
       static ShaderSources ParseShader(const std::string& filepath) 

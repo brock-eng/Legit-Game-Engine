@@ -15,10 +15,10 @@ namespace legit_engine {
          // ** max indices is 65535, for 4e10 indices use GLuint for array
          IndexBuffer(GLushort* data, GLsizei count);
 
-         void Bind() const;
-         void Unbind() const;
+         void bind() const;
+         void unbind() const;
 
-         GLuint GetCount() const;
+         GLuint getCount() const;
       };
    }
 }

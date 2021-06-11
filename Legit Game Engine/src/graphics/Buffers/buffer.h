@@ -14,8 +14,8 @@ namespace legit_engine {
       public:
          Buffer(GLfloat* data, GLsizei count, GLuint componentCount);
 
-         void Bind() const;
-         void Unbind() const;
+         void bind() const;
+         void unbind() const;
 
          GLuint GetComponentCount() const;
       };

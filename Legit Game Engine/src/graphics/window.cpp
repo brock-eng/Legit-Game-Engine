@@ -80,6 +80,11 @@ namespace legit_engine {
          Y = m_MouseY;
       }
 
+      components::Vec2 Window::getMousePosition()
+      {
+         return components::Vec2(m_MouseX, m_MouseY);
+      }
+
       void Window::Clear() const
       {
          glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

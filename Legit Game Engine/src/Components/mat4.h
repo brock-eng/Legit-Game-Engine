@@ -28,12 +28,12 @@ namespace legit_engine {
          friend mat4 operator*(mat4 left, const mat4& right);
          mat4& operator*=(const mat4& right);
 
-         mat4 orthographic(float left, float right, float top, float bottom, float near, float far);
-         mat4 perspective(float fov, float aspect, float near, float far);
+         static mat4 orthographic(float left, float right, float top, float bottom, float near, float far);
+         static mat4 perspective(float fov, float aspect, float near, float far);
 
-         mat4 rotation(float angle, const Vec3& axis);
-         mat4 translation(const Vec3& translation);
-         mat4 scale(const Vec3& scale);
+         static mat4 rotation(float angle, const Vec3& axis);
+         static mat4 translation(const Vec3& translation);
+         static mat4 scale(const Vec3& scale);
       };
    }
 }

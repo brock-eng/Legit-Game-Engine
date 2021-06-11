@@ -3,7 +3,7 @@
 #include <math.h>
 
 #include "mat4.h"
-#include "sys.h"
+#include "Sys.h"
 
 namespace legit_engine {
    namespace components {
@@ -141,9 +141,9 @@ namespace legit_engine {
       {
          mat4 result(1.0f);
 
-         result.elements[0 + 4 * SIZE] = translation.x;
-         result.elements[1 + 4 * SIZE] = translation.y;
-         result.elements[2 + 4 * SIZE] = translation.z;
+         result.elements[3 + 0 * SIZE] = translation.x;
+         result.elements[3 + 1 * SIZE] = translation.y;
+         result.elements[3 + 2 * SIZE] = translation.z;
 
          return result;
       }
