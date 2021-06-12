@@ -32,6 +32,8 @@ namespace legit_engine {
          static bool KeyPressed(unsigned int keyCode);
          static bool MouseButtonsPressed(unsigned int keyCode);
 
+         void getWindowSize(int& width, int& height);
+         void setWindowSize(int width, int height);
          static void getMousePosition(double& X, double& Y);
          static components::Vec2 getMousePosition();
 

@@ -15,6 +15,11 @@ namespace legit_engine {
          glBindBuffer(GL_ARRAY_BUFFER, 0);
       }
 
+      Buffer::~Buffer()
+      {
+         glDeleteBuffers(GL_ARRAY_BUFFER, &m_BufferID);
+      }
+
       void Buffer::bind() const
       {
          glBindBuffer(GL_ARRAY_BUFFER, m_BufferID);

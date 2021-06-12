@@ -154,9 +154,12 @@
     <ClCompile Include="src\graphics\Buffers\buffer.cpp" />
     <ClCompile Include="src\graphics\Buffers\indexbuffer.cpp" />
     <ClCompile Include="src\graphics\Buffers\vertexarray.cpp" />
+    <ClCompile Include="src\graphics\Renderables\batchrenderer2d.cpp" />
     <ClCompile Include="src\graphics\Renderables\renderer2d.h" />
     <ClCompile Include="src\graphics\Renderables\simple2drenderer.cpp" />
     <ClCompile Include="src\graphics\Shaders\shaders.cpp" />
+    <ClCompile Include="src\graphics\sprite.cpp" />
+    <ClCompile Include="src\graphics\static_sprite.cpp" />
     <ClCompile Include="src\graphics\window.cpp" />
     <ClCompile Include="src\utils\debug.cpp" />
   </ItemGroup>
@@ -170,9 +173,12 @@
     <ClInclude Include="src\graphics\Buffers\buffer.h" />
     <ClInclude Include="src\graphics\Buffers\indexbuffer.h" />
     <ClInclude Include="src\graphics\Buffers\vertexarray.h" />
+    <ClInclude Include="src\graphics\Renderables\batchrenderer2d.h" />
     <ClInclude Include="src\graphics\Renderables\renderable2d.h" />
     <ClInclude Include="src\graphics\Renderables\simple2drenderer.h" />
     <ClInclude Include="src\graphics\Shaders\shaders.h" />
+    <ClInclude Include="src\graphics\sprite.h" />
+    <ClInclude Include="src\graphics\static_sprite.h" />
     <ClInclude Include="src\graphics\window.h" />
     <ClInclude Include="src\utils\debug.h" />
   </ItemGroup>

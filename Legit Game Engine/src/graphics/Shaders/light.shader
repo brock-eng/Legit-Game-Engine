@@ -14,7 +14,7 @@ void main()
    pos = position;
    float intermediate = pr_matrix * vw_matrix * ml_matrix;
    gl_Position = pos * intermediate;
-   // gl_Position = pos ;
+   //gl_Position = pos ;
 };
 
 #shader fragment
@@ -30,7 +30,7 @@ layout(location = 0) out vec4 color;
 
 void main()
 {
-   float intensity = 1.0 / length(pos.xy - light_pos) * 0.1;
+   float intensity = 1.0 / length(pos.xy - light_pos) * 0.5;
    color = colour * intensity * click;
 };
 

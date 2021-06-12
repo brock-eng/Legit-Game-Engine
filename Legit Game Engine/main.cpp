@@ -30,29 +30,27 @@ int main()
 
    int screenWidth = 800, screenHeight = 600;
    
-   Window gameWindow("We out here son", screenWidth, screenHeight);
+   Window gameWindow("babbees first graphics engine", screenWidth, screenHeight);
    // glClearColor(0.2f, 0.3f, 0.8f, 5.0f);
    
    double mouseX = 0, mouseY = 0;
 
    GLfloat vertices[] =
    {
-      0, 0, 0,
-      0, 1, 0,
       1, 1, 0,
+      1, -1, 0,
+      -1, 1, 0,
       -1, -1, 0,
-      0, 0, 0, 
-      0, -1, 0
    };
 
    GLushort indices[] =
    {
       0, 1, 2,
-      3, 4, 5
+      1, 2, 3
    };
 
    VertexArray va;
-   Buffer* vb = new Buffer(vertices, 6 * 3, 3);
+   Buffer* vb = new Buffer(vertices, 4 * 3, 3);
    IndexBuffer ibo(indices, 6);
 
    va.AddBuffer(vb, 0);
@@ -66,7 +64,7 @@ int main()
    shaderSys.setUniformMat4("ml_matrix", mat4::translation(Vec3(0, 0.5, 0)));
 
    shaderSys.setUniform2f("light_pos", Vec2(0, 0));
-   shaderSys.setUniform4f("colour", Vec4(1.0f, 0.0f, 0.8f, 1.0f));
+   shaderSys.setUniform4f("colour", Vec4(1.0f, 0.5f, 0.0f, 1.0f));
 
 
 
@@ -99,6 +97,7 @@ int main()
       else
          shaderSys.setUniform1f("click", 1.0f);
       
+      gameWindow.getWindowSize(screenWidth, screenHeight);
       Vec2 positions = gameWindow.getMousePosition();
       positions.x *= 2.0f / screenWidth;
       positions.y *= -2.0f / screenHeight;

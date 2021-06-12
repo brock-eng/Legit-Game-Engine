@@ -9,12 +9,11 @@ namespace legit_engine {
       bool Window::m_MouseButtons[MAX_BUTTONS];
       double Window::m_MouseX, Window::m_MouseY;
 
-      void Resize(GLFWwindow* window, int m_ScreenWidth, int m_ScreenHeight);
+      // callback declarations
+      void GLFWresize_callback(GLFWwindow* window, int m_ScreenWidth, int m_ScreenHeight);
       void GLFWkey_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
       void GLFWmouse_callback(GLFWwindow* window, int button, int action, int mods);
       void GLFWcursor_position_callback(GLFWwindow* window, double xpos, double ypos);
-
-
 
       Window::Window(const char *name, int width, int height)
       {
@@ -24,7 +23,7 @@ namespace legit_engine {
          if (!Initialize())
          {
             glfwTerminate();
-            std::cout << "Initializer Failed.";
+            std::cout << "GLFW: Initializer Failed.";
          }
 
          for (int i = 0; i < MAX_KEYS; i++)
@@ -42,26 +41,26 @@ namespace legit_engine {
       {
          if (!glfwInit())
          {
-            std::cout << "GLFW failed to initialize." << std::endl;
+            std::cout << "GLFW: glfwInit() error." << std::endl;
             return false;
          }
          m_Window = glfwCreateWindow(m_ScreenWidth, m_ScreenHeight, m_Name, NULL, NULL);
          if (!m_Window)
          {
-            std::cout << "Window create failed." << std:: endl;
+            std::cout << "GLFW: Window create failed." << std:: endl;
             return false;
          }
 
          glfwMakeContextCurrent(m_Window);
          glfwSetWindowUserPointer(m_Window, this);
-         glfwSetWindowSizeCallback(m_Window, Resize);
+         glfwSetWindowSizeCallback(m_Window, GLFWresize_callback);
          glfwSetKeyCallback(m_Window, GLFWkey_callback);
          glfwSetMouseButtonCallback(m_Window, GLFWmouse_callback);
          glfwSetCursorPosCallback(m_Window, GLFWcursor_position_callback);
 
          if (glewInit() != GLEW_OK)
          {
-            std::cout << "GLEW failed to initialize." << std::endl;
+            std::cout << "GLEW: glewInit() error -> != GLEW_OK" << std::endl;
             return false;
          }
 
@@ -73,17 +72,6 @@ namespace legit_engine {
       {
          glfwTerminate();
       };
-
-      void Window::getMousePosition(double& X, double& Y)
-      {
-         X = m_MouseX;
-         Y = m_MouseY;
-      }
-
-      components::Vec2 Window::getMousePosition()
-      {
-         return components::Vec2(m_MouseX, m_MouseY);
-      }
 
       void Window::Clear() const
       {
@@ -101,12 +89,58 @@ namespace legit_engine {
          return glfwWindowShouldClose(m_Window);
       }
 
+      bool Window::KeyPressed(unsigned int keyCode)
+      {
+         if (keyCode >= MAX_KEYS)
+            return false;
+         return m_Keys[keyCode];
+      }
+
+      bool Window::MouseButtonsPressed(unsigned int keyCode)
+      {
+         if (keyCode >= MAX_BUTTONS)
+            return false;
+         return m_MouseButtons[keyCode];
+      }
+
+      /*
+         Utilities, getters & setters
+      */
+
       void Window::printXYPos()
       {
          double mouseX, mouseY;
          getMousePosition(mouseX, mouseY);
          std::cout << "x: " << mouseX << "y: " << mouseY << std::endl;
       }
+
+      void Window::setWindowSize(int width, int height)
+      {
+         m_ScreenWidth = width;
+         m_ScreenHeight = height;
+      }
+
+      void Window::getWindowSize(int& width, int& height)
+      {
+         width = m_ScreenWidth;
+         height = m_ScreenHeight;
+      }
+
+      void Window::getMousePosition(double& X, double& Y)
+      {
+         X = m_MouseX;
+         Y = m_MouseY;
+      }
+
+      components::Vec2 Window::getMousePosition()
+      {
+         return components::Vec2(m_MouseX, m_MouseY);
+      }
+
+      /*
+         Callback functions
+      */
+         
       void GLFWkey_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
       {
          Window* winD = (Window*)glfwGetWindowUserPointer(window);
@@ -127,22 +161,10 @@ namespace legit_engine {
          winD->m_MouseY = ypos;
       }
 
-      void Resize(GLFWwindow* window, int m_ScreenWidth, int m_ScreenHeight)
+      void GLFWresize_callback(GLFWwindow* window, int width, int height)
       {
-         glViewport(0, 0, m_ScreenWidth, m_ScreenHeight);
-      }
-
-      bool Window::KeyPressed(unsigned int keyCode)
-      {
-         if (keyCode >= MAX_KEYS)
-            return false;
-         return m_Keys[keyCode];
-      }
-
-      bool Window::MouseButtonsPressed(unsigned int keyCode)
-      {
-         if (keyCode >= MAX_BUTTONS)
-            return false;
-         return m_MouseButtons[keyCode];
+         Window* winD = (Window*)glfwGetWindowUserPointer(window);
+         winD->setWindowSize(width, height);
+         glViewport(0, 0, width, height);
       }
 } }
