@@ -36,6 +36,10 @@ namespace legit_engine {
          void setWindowSize(int width, int height);
          static void getMousePosition(double& X, double& Y);
          static components::Vec2 getMousePosition();
+         void getMousePositionNormalized(double& X, double& Y);
+         components::Vec2 getMousePositionNormalized();
+
+         GLFWwindow* getWindowPointer();
 
          void printXYPos();
 

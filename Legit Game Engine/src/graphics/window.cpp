@@ -26,6 +26,7 @@ namespace legit_engine {
             std::cout << "GLFW: Initializer Failed.";
          }
 
+
          for (int i = 0; i < MAX_KEYS; i++)
          {
             m_Keys[i] = false;
@@ -111,7 +112,7 @@ namespace legit_engine {
       {
          double mouseX, mouseY;
          getMousePosition(mouseX, mouseY);
-         std::cout << "x: " << mouseX << "y: " << mouseY << std::endl;
+         std::cout << "x: " << mouseX << "  y: " << mouseY << std::endl;
       }
 
       void Window::setWindowSize(int width, int height)
@@ -135,6 +136,22 @@ namespace legit_engine {
       components::Vec2 Window::getMousePosition()
       {
          return components::Vec2(m_MouseX, m_MouseY);
+      }
+
+      void Window::getMousePositionNormalized(double& X, double& Y)
+      {
+         X = m_MouseX * 2.0f / m_ScreenWidth - 1;
+         Y = m_MouseY * -2.0f / m_ScreenHeight + 1;
+      }
+
+      components::Vec2 Window::getMousePositionNormalized()
+      {
+         return components::Vec2(m_MouseX * 2.0f / m_ScreenWidth - 1, m_MouseY * -2.0f / m_ScreenHeight + 1);
+      }
+      
+      GLFWwindow* Window::getWindowPointer()
+      {
+         return m_Window;
       }
 
       /*

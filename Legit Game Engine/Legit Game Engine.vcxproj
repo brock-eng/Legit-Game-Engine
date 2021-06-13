@@ -162,6 +162,13 @@
     <ClCompile Include="src\graphics\static_sprite.cpp" />
     <ClCompile Include="src\graphics\window.cpp" />
     <ClCompile Include="src\utils\debug.cpp" />
+    <ClCompile Include="src\utils\ImGui\imgui.cpp" />
+    <ClCompile Include="src\utils\ImGui\imgui_demo.cpp" />
+    <ClCompile Include="src\utils\ImGui\imgui_draw.cpp" />
+    <ClCompile Include="src\utils\ImGui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="src\utils\ImGui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="src\utils\ImGui\imgui_tables.cpp" />
+    <ClCompile Include="src\utils\ImGui\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Components\mat4.h" />
@@ -173,6 +180,7 @@
     <ClInclude Include="src\graphics\Buffers\buffer.h" />
     <ClInclude Include="src\graphics\Buffers\indexbuffer.h" />
     <ClInclude Include="src\graphics\Buffers\vertexarray.h" />
+    <ClInclude Include="src\graphics\graphics_components.h" />
     <ClInclude Include="src\graphics\Renderables\batchrenderer2d.h" />
     <ClInclude Include="src\graphics\Renderables\renderable2d.h" />
     <ClInclude Include="src\graphics\Renderables\simple2drenderer.h" />
@@ -181,9 +189,18 @@
     <ClInclude Include="src\graphics\static_sprite.h" />
     <ClInclude Include="src\graphics\window.h" />
     <ClInclude Include="src\utils\debug.h" />
+    <ClInclude Include="src\utils\ImGui\imconfig.h" />
+    <ClInclude Include="src\utils\ImGui\imgui.h" />
+    <ClInclude Include="src\utils\ImGui\imgui_impl_glfw.h" />
+    <ClInclude Include="src\utils\ImGui\imgui_impl_opengl3.h" />
+    <ClInclude Include="src\utils\ImGui\imgui_internal.h" />
+    <ClInclude Include="src\utils\ImGui\imstb_rectpack.h" />
+    <ClInclude Include="src\utils\ImGui\imstb_textedit.h" />
+    <ClInclude Include="src\utils\ImGui\imstb_truetype.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\graphics\Shaders\basic.shader" />
+    <None Include="src\graphics\Shaders\fancy_shader.shader" />
     <None Include="src\graphics\Shaders\light.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

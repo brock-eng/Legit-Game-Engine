@@ -8,7 +8,7 @@ namespace legit_engine {
       class Sprite : public renderables:: Renderable2D
       {
 
-      private:
-         Sprite(float x, float y, float width, float height, components::Vec4& color);
+      public:
+         Sprite(float x, float y, float width, float height, const components::Vec4& color);
       };
 } }

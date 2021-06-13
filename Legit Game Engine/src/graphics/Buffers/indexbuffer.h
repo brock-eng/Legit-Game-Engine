@@ -14,6 +14,7 @@ namespace legit_engine {
       public:
          // ** max indices is 65535, for 4e10 indices use GLuint for array
          IndexBuffer(GLushort* data, GLsizei count);
+         IndexBuffer(GLuint* data, GLsizei count);
          ~IndexBuffer();
 
          void bind() const;

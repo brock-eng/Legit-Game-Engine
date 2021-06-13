@@ -5,13 +5,14 @@
 namespace legit_engine {
    namespace graphics {
 
-      StaticSprite::StaticSprite(float x, float y, float width, float height, components::Vec4& color, shaders::Shader& shader) 
-         : Renderable2D(components::Vec3(x, y, 0), components::Vec2(width, height), color), m_Shader(shader)
+      StaticSprite::StaticSprite(float x, float y, float width, float height, const components::Vec4& color, shaders::Shader* shader) 
+         : Renderable2D(components::Vec3(x, y, 0), components::Vec2(width, height), color), m_Shader((shaders::Shader*)shader)
       {
          m_VertexArray = new buffers::VertexArray();
 
          GLfloat vertices[] =
          {
+            // square construction
             0, 0, 0,
             0, height, 0,
             width, height, 0,

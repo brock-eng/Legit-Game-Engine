@@ -8,7 +8,7 @@
 namespace legit_engine {
    namespace renderables {
 
-#define RENDERER_MAX_SPRITES     10000
+#define RENDERER_MAX_SPRITES     60000
 #define RENDERER_VERTEX_SIZE     sizeof(VertexData)
 #define RENDERER_SPRITE_SIZE     RENDERER_VERTEX_SIZE * 4
 #define RENDERER_BUFFER_SIZE     RENDERER_SPRITE_SIZE * RENDERER_MAX_SPRITES
@@ -23,7 +23,7 @@ namespace legit_engine {
          buffers::IndexBuffer* m_IBO;
          GLuint m_VBO;
          GLuint m_VAO;
-         VertexData* m_Data;
+         VertexData* m_Buffer;
          GLsizei m_IndexCount;
 
       public:

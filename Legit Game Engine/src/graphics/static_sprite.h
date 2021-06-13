@@ -12,14 +12,14 @@ namespace legit_engine {
          components::Vec3 m_Position;
          components::Vec4 m_Color;
          
-         shaders::Shader& m_Shader;
+         shaders::Shader* m_Shader;
          buffers::VertexArray* m_VertexArray;
          buffers::IndexBuffer* m_IndexBuffer;
       public:
-         StaticSprite(float x, float y, float width, float height, components::Vec4& color, shaders::Shader& shader);
+         StaticSprite(float x, float y, float width, float height, const components::Vec4& color, shaders::Shader* shader);
          ~StaticSprite();
 
-         inline shaders::Shader& getShader() const { return m_Shader; }
+         inline shaders::Shader& getShader() const { return *m_Shader; }
          inline buffers::VertexArray* getVAO() const { return m_VertexArray; }
          inline buffers::IndexBuffer* getIBO() const { return m_IndexBuffer; }
          };
