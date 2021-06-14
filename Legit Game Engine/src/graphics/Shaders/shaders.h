@@ -24,8 +24,8 @@ namespace legit_engine {
          Shader(const char* filepath);
          ~Shader();
 
-         void setUniform1f(const GLchar* name, float value);
          void setUniform1i(const GLchar* name, int value);
+         void setUniform1f(const GLchar* name, float value);
          void setUniform2f(const GLchar* name, const components::Vec2& matrix);
          void setUniform3f(const GLchar* name, const components::Vec3& matrix);
          void setUniform4f(const GLchar* name, const components::Vec4& matrix);

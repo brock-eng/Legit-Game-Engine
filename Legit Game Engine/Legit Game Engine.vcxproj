@@ -72,12 +72,12 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)Dependencies\GLEW;"C:\Users\emodu\source\repos\Legit Game Engine\Dependencies\GLFW;$(SolutionDir)Dependencies\GLFW;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Dependencies\GLEW;$(IncludePath);$(SolutionDir)Dependencies\GLFW</IncludePath>
     <LibraryPath>$(SolutionDir)Dependencies\GLEW;$(SolutionDir)Dependencies\GLFW;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)Dependencies\GLEW;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Dependencies\GLEW;$(IncludePath);$(SolutionDir)Dependencies\GLFW</IncludePath>
     <LibraryPath>$(SolutionDir)Dependencies\GLEW;$(SolutionDir)Dependencies\GLFW;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -157,9 +157,10 @@
     <ClCompile Include="src\graphics\Renderables\batchrenderer2d.cpp" />
     <ClCompile Include="src\graphics\Renderables\renderer2d.h" />
     <ClCompile Include="src\graphics\Renderables\simple2drenderer.cpp" />
+    <ClCompile Include="src\graphics\Renderables\texture.cpp" />
     <ClCompile Include="src\graphics\Shaders\shaders.cpp" />
-    <ClCompile Include="src\graphics\sprite.cpp" />
-    <ClCompile Include="src\graphics\static_sprite.cpp" />
+    <ClCompile Include="src\graphics\Renderables\sprite.cpp" />
+    <ClCompile Include="src\graphics\Renderables\static_sprite.cpp" />
     <ClCompile Include="src\graphics\window.cpp" />
     <ClCompile Include="src\utils\debug.cpp" />
     <ClCompile Include="src\utils\ImGui\imgui.cpp" />
@@ -184,10 +185,12 @@
     <ClInclude Include="src\graphics\Renderables\batchrenderer2d.h" />
     <ClInclude Include="src\graphics\Renderables\renderable2d.h" />
     <ClInclude Include="src\graphics\Renderables\simple2drenderer.h" />
+    <ClInclude Include="src\graphics\Renderables\texture.h" />
     <ClInclude Include="src\graphics\Shaders\shaders.h" />
-    <ClInclude Include="src\graphics\sprite.h" />
-    <ClInclude Include="src\graphics\static_sprite.h" />
+    <ClInclude Include="src\graphics\Renderables\sprite.h" />
+    <ClInclude Include="src\graphics\Renderables\static_sprite.h" />
     <ClInclude Include="src\graphics\window.h" />
+    <ClInclude Include="src\helpers.h" />
     <ClInclude Include="src\utils\debug.h" />
     <ClInclude Include="src\utils\ImGui\imconfig.h" />
     <ClInclude Include="src\utils\ImGui\imgui.h" />
@@ -197,11 +200,16 @@
     <ClInclude Include="src\utils\ImGui\imstb_rectpack.h" />
     <ClInclude Include="src\utils\ImGui\imstb_textedit.h" />
     <ClInclude Include="src\utils\ImGui\imstb_truetype.h" />
+    <ClInclude Include="src\utils\StbImage\stb_image.h" />
+    <ClInclude Include="src\utils\StbImage\stb_image_include.h">
+      <DeploymentContent>false</DeploymentContent>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\graphics\Shaders\basic.shader" />
     <None Include="src\graphics\Shaders\fancy_shader.shader" />
     <None Include="src\graphics\Shaders\light.shader" />
+    <None Include="src\graphics\Shaders\textured.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

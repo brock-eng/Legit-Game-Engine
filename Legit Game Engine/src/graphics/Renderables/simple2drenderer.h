@@ -4,7 +4,7 @@
 
 #include "renderer2d.h"
 #include "../../Components/Sys.h"
-#include "../static_sprite.h"
+#include "../Renderables/static_sprite.h"
 
 #include <deque>
 

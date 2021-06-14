@@ -8,6 +8,9 @@ namespace legit_engine {
 
       DebugUtil::DebugUtil()
       {
+         m_StartTime = glfwGetTime();
+         m_Last = -1.0f;
+         m_FrameCount = 0;
       }
 
       DebugUtil::~DebugUtil()
@@ -36,7 +39,7 @@ namespace legit_engine {
       {
          double X, Y;
          window.getMousePosition(X, Y);
-         std::cout << "Mouse_Pos: <" << X << ", " << Y;
+         std::cout << "[Debug] Mouse_Pos: <" << X << ", " << Y;
       }
 
       void DebugUtil::setKeyWatch(const graphics::Window* window, unsigned int keycode)
@@ -54,6 +57,29 @@ namespace legit_engine {
          std::stringstream ss;
          ss << title << " [FPS: " << fps << "]";
          glfwSetWindowTitle(window->getWindowPointer(), ss.str().c_str());
+      }
+
+      void DebugUtil::timerStart()
+      {
+         m_StartTime = glfwGetTime();
+      }
+
+      void DebugUtil::update()
+      {
+         m_FrameCount++;
+      }
+
+      void DebugUtil::pollPerformance()
+      {
+         if (m_FrameCount == -1)
+         {
+            std::cout << "Error: DebugUtil.update() must be called at least once to poll performance time." << std::endl;
+            return;
+         }
+         double now = glfwGetTime();
+         double avgFPS = 1.0f / ((now - m_StartTime) /  (float) m_FrameCount );
+
+         std::cout << "[Debug]: Average FPS -> " << avgFPS << std::endl;
       }
 
       void DebugUtil::GLClearError()

@@ -66,12 +66,6 @@
     <ClCompile Include="src\graphics\Renderables\batchrenderer2d.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\graphics\sprite.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\graphics\static_sprite.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\utils\ImGui\imgui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -91,6 +85,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\utils\ImGui\imgui_impl_opengl3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics\Renderables\sprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics\Renderables\static_sprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics\Renderables\texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -140,12 +143,6 @@
     <ClInclude Include="src\graphics\Renderables\batchrenderer2d.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\graphics\sprite.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\graphics\static_sprite.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\graphics\graphics_components.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -173,10 +170,29 @@
     <ClInclude Include="src\utils\ImGui\imgui_impl_opengl3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\graphics\Renderables\sprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\Renderables\static_sprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\Renderables\texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\StbImage\stb_image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\StbImage\stb_image_include.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\graphics\Shaders\basic.shader" />
     <None Include="src\graphics\Shaders\light.shader" />
     <None Include="src\graphics\Shaders\fancy_shader.shader" />
+    <None Include="src\graphics\Shaders\textured.shader" />
   </ItemGroup>
 </Project>
