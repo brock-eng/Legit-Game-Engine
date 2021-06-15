@@ -16,7 +16,7 @@ namespace legit_engine {
          buffers::VertexArray* m_VertexArray;
          buffers::IndexBuffer* m_IndexBuffer;
       public:
-         StaticSprite(float x, float y, float width, float height, const components::Vec4& color, shaders::Shader* shader);
+         StaticSprite(float x, float y, float width, float height, const components::Vec4& color, shaders::Shader* shader, short textureID = -1);
          ~StaticSprite();
 
          inline shaders::Shader& getShader() const { return *m_Shader; }

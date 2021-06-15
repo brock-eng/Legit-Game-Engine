@@ -45,48 +45,76 @@ int main()
    int screenWidth = 800, screenHeight = 600;
    double mouseX = 0, mouseY = 0;
    const char* appName = "babbees first graphics engine";
-   Window gameWindow("babbees first graphics engine", screenWidth, screenHeight);
-   glClearColor(0.2f, 0.3f, 0.8f, 5.0f);
+   Window gameWindow(appName, screenWidth, screenHeight);
+   BatchRenderer2D draw;
+   utils::DebugUtil debug;
+   bootGui(&gameWindow);
+   glClearColor(1, 1, 0, 1);
+   float xL = 0;
+   float xR =  screenWidth;
+   float yB = 0;
+   float yT =  screenHeight;
 
-   mat4 ortho = mat4::orthographic(0.0, 0.5f, 0.0f, 0.5f, -1.0f, 1.0f);
+   mat4 ortho = mat4::orthographic(xL, xR, yB, yT, -1.0f, 1.0f);
+   // mat4 ortho = mat4::orthographic(0, (float)screenWidth, (float)screenHeight, 0.0f, -1.0f, 1.0f);
+   mat4 identity(1.0f);
+   mat4 defaultMatrix;
+
+   Vec4 positionTest = { 2, 2, 0, 0 };
+
+   std::cout << ortho.toString();
+   std::cout << identity.toString();
+   std::cout << defaultMatrix.toString();
+   std::cout << positionTest.multiply(ortho) << std::endl;
+   std::cout << positionTest.multiply(mat4::translation(Vec3(0, 10.0f, 0))) << std::endl;
 
    Shader shaderSys("src/graphics/shaders/textured.shader");
    shaderSys.Enable();
    shaderSys.setUniformMat4("pr_matrix", ortho);
-   shaderSys.setUniformMat4("ml_matrix", mat4::translation(Vec3(0, 0.5, 0)));
+   shaderSys.setUniformMat4("ml_matrix", mat4::translation(Vec3(0, 10.0f, 0)));
    shaderSys.setUniform2f("light_pos", Vec2(0, 0));
    shaderSys.setUniform4f("colour", Vec4(1.0f, 0.5f, 0.0f, 1.0f));
 
 
-   utils::DebugUtil debug;
    
    std::vector<Sprite*> sprites;
-   const int NUM_SPRITES = 150;
-   
+   const int NUM_SPRITES = 4;
    srand(0);
+   int countTest = 0;
+   
    for (float i = 0; i < 2.0f; i += 2.0f / NUM_SPRITES)
    {
       for (float j = 0; j < 2.0f; j += 2.0f / NUM_SPRITES)
       {
-         sprites.push_back(new Sprite(i - 1.0f, j - 1.0f, 2.0f / NUM_SPRITES * 0.8f, 2.0f / NUM_SPRITES * 0.8f, Vec4(float_rand(0, 1), 0, float_rand(0, 1), float_rand(0, 1))));
+         switch (countTest)
+         {
+         case 0: sprites.push_back(new Sprite(i/2.0f * screenWidth , (j - 1.0f) * screenHeight + 200, (float) screenWidth / NUM_SPRITES * 1.5f, (float) screenHeight / NUM_SPRITES * 1.5f + 200, Vec4(float_rand(0, 1), 0, float_rand(0, 1), float_rand(0, 1)), &shaderSys, 2));
+            break;
+         case 1: sprites.push_back(new Sprite(i/2.0f - 1.0f, j - 1.0f, (float) screenWidth / NUM_SPRITES * 0.8f, (float) screenHeight / NUM_SPRITES * 0.8f, Vec4(float_rand(0, 1), 0, float_rand(0, 1), float_rand(0, 1)), &shaderSys, 2));
+            break;
+         case 2: sprites.push_back(new Sprite(i - 1.0f, j - 1.0f, 2.0f / NUM_SPRITES * 0.8f, 2.0f / NUM_SPRITES * 0.8f, Vec4(float_rand(0, 1), 0, float_rand(0, 1), float_rand(0, 1)), &shaderSys, 2));
+            break;
+         default:
+            countTest-=4;
+         }
+         countTest++;
       }
-   } 
-   
+   }  
+   sprites.push_back(new Sprite((xR - xL) / 4.0f, (yT - yB) / 4.0f, (xR - xL) / 4.0f, (yT - yB) / 4.0f, Vec4( 0, 0, 1.0f, 0 ), &shaderSys, 0));
+
    LOG("Num Sprites: " << sprites.size());
 
-   BatchRenderer2D draw;
-
+   sprites[0]->setUV(0, 0.75, 0.25, 0.25);
    
 
-   bootGui(&gameWindow);
-
-   glActiveTexture(GL_TEXTURE0);
-   renderables::Texture texture("src/res/sample2.jpg");
-   renderables::Texture texture2("src/res/sample.png");
-   texture.bind();
+   renderables::Texture texture1("src/res/hero.jpg");
+   renderables::Texture texture2("src/res/pepesprites.png");
+   texture1.bind(1);
+   texture2.bind(2);
 
    bool navActive;
-   ImVec4 clear_color = ImVec4(0, 0, 0, 0);
+   ImVec4 clear_color = ImVec4(0.5, 0.5, 0.5, 0);
+
 #if 1
 
    debug.timerStart();
@@ -99,7 +127,7 @@ int main()
    while (!gameWindow.Closed()) 
    {
       bool windowBool = false, click_effect;
-      static float intensity = 0.5f;
+      static float intensity = 0.5f; 
       gameWindow.Clear();
       draw.begin();
       debug.GLCheckErrors();
@@ -109,7 +137,8 @@ int main()
       {
          //components::Vec3& position = sprite->getPositionM();
          //sprite->setPosition(position.x + mod, position.y, 0);
-         draw.submit(sprite);
+         draw.submitSprite(sprite);
+         // std::cout << sprite->getPosition() << std::endl;
       }
       draw.end();
       draw.flush();
@@ -145,10 +174,14 @@ int main()
       gameWindow.getWindowSize(screenWidth, screenHeight);
       positions = gameWindow.getMousePositionNormalized();
 
-      shaderSys.setUniform2f("light_pos", positions);
+      shaderSys.setUniform2f("light_pos", Vec2(2.0f * positions.x/screenWidth - 1.0f, 2.0f * positions.y/screenHeight - 1.0f));
 
       debug.update();
       count++;
+
+      mat4 ortho = mat4::orthographic(0, screenWidth, 0, screenHeight, -1.0f, 1.0f);
+      shaderSys.setUniformMat4("pr_matrix", ortho);
+
    }
 
    debug.pollPerformance();

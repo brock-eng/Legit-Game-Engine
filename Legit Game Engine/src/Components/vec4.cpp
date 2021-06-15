@@ -1,7 +1,9 @@
 #pragma once
-#include "Vec4.h"
 
 #include <iostream>
+
+#include "Vec4.h"
+#include "mat4.h"
 
 namespace legit_engine 
 {
@@ -49,6 +51,15 @@ namespace legit_engine
          y /= v2.y;
 
          return *this;
+      }
+
+      Vec4& Vec4::multiply(const mat4& transform) 
+      {
+            x = transform.rows[0].x * x + transform.rows[0].y * y + transform.rows[0].z * z + transform.rows[0].w * w;
+            y = transform.rows[1].x * x + transform.rows[1].y * y + transform.rows[1].z * z + transform.rows[1].w * w;
+            z = transform.rows[2].x * x + transform.rows[2].y * y + transform.rows[2].z * z + transform.rows[2].w * w;
+            w = transform.rows[3].x * x + transform.rows[3].y * y + transform.rows[3].z * z + transform.rows[3].w * w;
+            return *this;
       }
 
       std::ostream& operator<<(std::ostream& stream, const Vec4& v2)

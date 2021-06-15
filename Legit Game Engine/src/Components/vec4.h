@@ -6,6 +6,9 @@ namespace legit_engine
 {
    namespace components
    {
+
+      class mat4;
+
       class Vec4
       {
       public: 
@@ -19,6 +22,7 @@ namespace legit_engine
          Vec4& subtract(const Vec4& v2);
          Vec4& multiply(const Vec4& v2);
          Vec4& divide(const Vec4& v2);
+         Vec4& multiply(const mat4& transform);
 
          // math operators
          friend Vec4& operator+(Vec4 v1, const Vec4& v2);

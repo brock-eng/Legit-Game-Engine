@@ -1,6 +1,5 @@
 #pragma once
 
-#include "mat4.h"
 #include "sys.h"
 
 namespace legit_engine {
@@ -15,8 +14,8 @@ namespace legit_engine {
 
          union
          {
-            float elements[4 * 4];
-            Vec4 collumns[4];
+            float elements[SIZE * SIZE];
+            Vec4 rows[SIZE];
          };
 
          mat4();
@@ -34,6 +33,8 @@ namespace legit_engine {
          static mat4 rotation(float angle, const Vec3& axis);
          static mat4 translation(const Vec3& translation);
          static mat4 scale(const Vec3& scale);
+
+         std::string toString() const;
       };
    }
 }

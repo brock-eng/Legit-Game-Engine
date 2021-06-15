@@ -52,6 +52,11 @@ namespace legit_engine {
             return false;
          }
 
+         // enable blending (transparency support)
+         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+         glEnable(GL_BLEND);
+
+         // setting function callbacks
          glfwMakeContextCurrent(m_Window);
          glfwSetWindowUserPointer(m_Window, this);
          glfwSetWindowSizeCallback(m_Window, GLFWresize_callback);
@@ -146,7 +151,7 @@ namespace legit_engine {
 
       components::Vec2 Window::getMousePositionNormalized()
       {
-         return components::Vec2(m_MouseX * 2.0f / m_ScreenWidth - 1, m_MouseY * -2.0f / m_ScreenHeight + 1);
+         return components::Vec2(m_MouseX, m_MouseY * -1.0f + m_ScreenHeight);
       }
       
       GLFWwindow* Window::getWindowPointer()

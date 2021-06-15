@@ -31,6 +31,8 @@ namespace legit_engine {
          void setUniform4f(const GLchar* name, const components::Vec4& matrix);
          void setUniformMat4(const GLchar* name, const components::mat4& matrix);
 
+         inline const unsigned int getRendererID() const { return m_ShaderID; }
+
          void Enable() const;
          void Disable() const;
       private:

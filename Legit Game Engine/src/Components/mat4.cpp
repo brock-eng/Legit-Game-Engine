@@ -1,6 +1,7 @@
 #pragma once
 
 #include <math.h>
+#include <sstream>
 
 #include "mat4.h"
 #include "Sys.h"
@@ -18,12 +19,11 @@ namespace legit_engine {
       // initializes a diagonal matrix of input number
       mat4::mat4(float diagonal)
       {
-         for (int i = 0; i < SIZE * SIZE; i++)
-            elements[i] = 0.0f;
-         for (int i = 0; i < SIZE; i++)
-         {
-            elements[i * SIZE] = diagonal;
-         }
+         memset(elements, 0, 4 * 4 * sizeof(float));
+         elements[0 + 0 * SIZE] = diagonal;
+         elements[1 + 1 * SIZE] = diagonal;
+         elements[2 + 2 * SIZE] = diagonal;
+         elements[3 + 3 * SIZE] = diagonal;
       }
 
       // identity matrix
@@ -55,24 +55,24 @@ namespace legit_engine {
       {
          return left.multiply(right);
       }
-      
+
       mat4& mat4::operator*=(const mat4& right)
       {
          return multiply(right);
       }
 
-      // returns orthographic projection matrix with 6-tuple input
-      mat4 mat4::orthographic(float left, float right, float top, float bottom, float near, float far)
+      // returns orthographic projection matrix
+      mat4 mat4::orthographic(float left, float right, float bottom, float top, float near, float far)
       {
-         mat4 result;
+         mat4 result(1.0f);
 
-         result.elements[0 + 0 * SIZE] = 2.0f / (right - left);
-         result.elements[1 + 2 * SIZE] = 2.0f / (top - bottom);
-         result.elements[2 + 2 * SIZE] = 2.0f / (near - far);
+         result.elements[0 + 0 * 4] = 2.0f / (right - left);
+         result.elements[1 + 1 * 4] = 2.0f / (top - bottom);
+         result.elements[2 + 2 * 4] = 2.0f / (near - far);
 
-         result.elements[0 + 3 * SIZE] = (left + right) / (left - right);
-         result.elements[1 + 3 * SIZE] = (bottom + top) / (bottom - top);
-         result.elements[2 + 3 * SIZE] = (far + near)   / (far - near);
+         result.elements[3 + 0 * 4] = (left + right) / (left - right);
+         result.elements[3 + 1 * 4] = (bottom + top) / (bottom - top);
+         result.elements[3 + 2 * 4] = (far + near) / (far - near);
 
          return result;
       }
@@ -80,6 +80,7 @@ namespace legit_engine {
       // returns perspective matrix
       mat4 mat4::perspective(float fov, float aspect, float near, float far)
       {
+         
          mat4 result;
 
          float deg = std::tan(fov * PI / (2 * 180));
@@ -114,12 +115,12 @@ namespace legit_engine {
          result.elements[2 + 0 * SIZE] = x * z * omc - y *s;
 
          result.elements[0 + 1 * SIZE] = y * x * omc - z * s;
-         result.elements[1 + 1 * SIZE] = y * omc + c;
+         result.elements[1 + 1 * SIZE] = y * y * omc + c;
          result.elements[2 + 1 * SIZE] = y * z * omc + x * s;
          
          result.elements[0 + 1 * SIZE] = x * z * omc + y * s;
          result.elements[1 + 1 * SIZE] = y * z * omc - x * s;
-         result.elements[2 + 1 * SIZE] = z * omc + c;
+         result.elements[2 + 1 * SIZE] = z * z * omc + c;
 
          return result;
       }
@@ -147,5 +148,16 @@ namespace legit_engine {
 
          return result;
       }
+
+      std::string mat4::toString() const
+      {
+         std::stringstream result;
+         result << "mat4: (" << rows[0].x << ", " << rows[1].x << ", " << rows[2].x << ", " << rows[3].x << "), ";
+         result << "(" << rows[0].y << ", " << rows[1].y << ", " << rows[2].y << ", " << rows[3].y << "), ";
+         result << "(" << rows[0].z << ", " << rows[1].z << ", " << rows[2].z << ", " << rows[3].z << "), ";
+         result << "(" << rows[0].w << ", " << rows[1].w << ", " << rows[2].w << ", " << rows[3].w << ")\n";
+         return result.str();
+      }
+
    }
 }

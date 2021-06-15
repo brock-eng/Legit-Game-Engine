@@ -1,6 +1,7 @@
 #pragma once
 
-#include "renderer2d.h"
+#include "sprite.h"
+#include "renderer2D.h"
 #include "../Buffers/vertexarray.h"
 
 #include "../../Components/Sys.h"
@@ -17,6 +18,9 @@ namespace legit_engine {
 #define SHADER_VERTEX_INDEX 0
 #define SHADER_UV_INDEX 1
 #define SHADER_COLOR_INDEX 2
+#define SHADER_TEXTURE_INDEX 3
+
+#define MAX_TEXTURES 32
 
       class BatchRenderer2D : public Renderer2D
       {
@@ -34,6 +38,7 @@ namespace legit_engine {
          ~BatchRenderer2D();
          void begin();
          void submit(const Renderable2D* renderable) override;
+         void submitSprite(const Sprite* sprite);
          void end();
          void flush() override;
 

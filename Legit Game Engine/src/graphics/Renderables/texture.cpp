@@ -7,24 +7,17 @@
 
 namespace legit_engine {
    namespace renderables {
-
-      Texture::Texture(const std::string& path)
+       
+      Texture::Texture(const std::string& path)  
          : m_RendererID(0), m_Path(path), m_LocalBuffer(nullptr), m_Width(0), m_Height(0), m_BPP(0)
       {
-         //std::fstream stream(path);
-
-         //if (stream.fail())
-         {
-         //   std::cout << "Error: Shader could not load texture @ '" << path << "'" << std::endl;
-         }
-
          stbi_set_flip_vertically_on_load(1);
          m_LocalBuffer = stbi_load(path.c_str(), &m_Width, &m_Height, &m_BPP, 4);
          glGenTextures(1, &m_RendererID);
          glBindTexture(GL_TEXTURE_2D, m_RendererID);
 
          glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
          glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
          glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
@@ -34,8 +27,10 @@ namespace legit_engine {
          if (m_LocalBuffer)
             stbi_image_free(m_LocalBuffer);
          else
-            std::cout << stbi_failure_reason() << std::endl;
-
+         {
+            std::string reason = stbi_failure_reason();
+            std::cout << "Error: Shader could not load texture @ '" << path << "'. Reason: " << reason << std::endl;
+         }
       }
       Texture::~Texture()
       {
