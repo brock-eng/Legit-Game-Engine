@@ -110,43 +110,63 @@ namespace legit_engine {
          const components::Vec4& color = sprite->getColor();
          const std::vector<components::Vec2>& uv = sprite->getUV();
          float tid = sprite->getTextureID();
+         int r = 0, g = 0, b = 0, a = 0, c = 0;
+         
+         float ts = 0.0f;
+         if (tid > 0)
+         {
+            bool found = false;
+            for (int i = 0; i < m_Textures.size(); i++)
+               if (tid == m_Textures[i])
+               {
+                  ts = (float)(i + 1);
+                  found = true;
+                  break;
+               }
 
-         int r = color.x * 255.0f;
-         int g = color.y * 255.0f;
-         int b = color.z * 255.0f;
-         int a = color.w * 255.0f;
-
-         glUseProgram(sprite->getShader().getRendererID());
-         auto loc = glGetUniformLocation(sprite->getShader().getRendererID(), "textures");
-         int textures[MAX_TEXTURES];
-         for (int i = 0; i < MAX_TEXTURES; i++)
-            textures[i] = i;
-         glUniform1iv(loc, MAX_TEXTURES, textures);
-
-         unsigned int c = a << 24 | b << 16 | g << 8 | r;
+            if (!found)
+            {
+               if (m_Textures.size() >= MAX_TEXTURES)
+               {
+                  end();
+                  flush();
+                  begin();
+               }
+               m_Textures.push_back(tid);
+               ts = (float)m_Textures.size();
+            }
+         }
+         else
+         {
+            r = color.x * 255.0f;
+            g = color.y * 255.0f;
+            b = color.z * 255.0f;
+            a = color.w * 255.0f;
+            c = a << 24 | b << 16 | g << 8 | r;
+         }
 
          m_Buffer->vertex = position;
          m_Buffer->texCoords = uv[0];
          m_Buffer->color = c;
-         m_Buffer->textureIndex = tid;
+         m_Buffer->textureIndex = ts;
          m_Buffer++; 
 
          m_Buffer->vertex = components::Vec3(position.x, position.y + size.y, position.z);
          m_Buffer->texCoords = uv[1];
          m_Buffer->color = c;
-         m_Buffer->textureIndex = tid;
+         m_Buffer->textureIndex = ts;
          m_Buffer++;
 
          m_Buffer->vertex = components::Vec3(position.x + size.x, position.y + size.y, position.z);
          m_Buffer->texCoords = uv[2];
          m_Buffer->color = c;
-         m_Buffer->textureIndex = tid;
+         m_Buffer->textureIndex = ts;
          m_Buffer++;
 
          m_Buffer->vertex = components::Vec3(position.x + size.x, position.y, position.z);
          m_Buffer->texCoords = uv[3];
          m_Buffer->color = c;
-         m_Buffer->textureIndex = tid;
+         m_Buffer->textureIndex = ts;
          m_Buffer++;
 
          m_IndexCount += 6;
@@ -162,6 +182,13 @@ namespace legit_engine {
 
       void BatchRenderer2D::flush()
       {
+
+         for (int i = 0; i < m_Textures.size(); i++)
+         {
+            glActiveTexture(GL_TEXTURE0 + i + 1);
+            glBindTexture(GL_TEXTURE_2D, m_Textures[i]);
+         }
+
          glBindVertexArray(m_VAO);
          m_IBO->bind();
 

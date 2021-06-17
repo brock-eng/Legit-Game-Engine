@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include "sprite.h"
 #include "renderer2D.h"
 #include "../Buffers/vertexarray.h"
@@ -30,6 +32,8 @@ namespace legit_engine {
          GLuint m_VAO;
          VertexData* m_Buffer;
          GLsizei m_IndexCount;
+
+         std::vector<unsigned int> m_Textures;
       protected:
 
 

@@ -132,6 +132,11 @@ namespace legit_engine {
          height = m_ScreenHeight;
       }
 
+      components::Vec2 Window::getWindowSize()
+      {
+         return components::Vec2(m_ScreenWidth, m_ScreenHeight);
+      }
+
       void Window::getMousePosition(double& X, double& Y)
       {
          X = m_MouseX;

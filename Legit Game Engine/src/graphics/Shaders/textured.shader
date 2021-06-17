@@ -55,12 +55,13 @@ void main()
 {
    float intensity = 1.0 / length(fs_in.position.xy - light_pos);
    int textureCurr = int(fs_in.textureID);
-   int noTexture = 0;
+   float noTexture = 0.0f;
    if (fs_in.textureID == noTexture)
       color = fs_in.color * intensity* click;
    else
    {
       color = texture(textures[textureCurr], fs_in.texCoords)*intensity* click;
+      if (color == 0.0f) discard;
    }
 };
 

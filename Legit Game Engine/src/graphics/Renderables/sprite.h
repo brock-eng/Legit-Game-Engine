@@ -11,8 +11,9 @@ namespace legit_engine {
       private:
          shaders::Shader* m_Shader;
       public:
-         Sprite(float x, float y, float width, float height, const components::Vec4& color, shaders::Shader* shader, short textureID = -1);
-         ~Sprite();
+         Sprite(float x, float y, float width, float height, const components::Vec4& color, shaders::Shader* shader);
+
+         Sprite(float x, float y, float width, float height, renderables::Texture& texture, shaders::Shader* shader);
 
          void setUV(float x, float y, float width, float height);
 
@@ -21,7 +22,6 @@ namespace legit_engine {
          inline const components::Vec3& getPosition() const { return m_Position; }
          inline const components::Vec4& getColor() const { return m_Color; }
          inline const std::vector<components::Vec2>& getUV() const { return m_UV; }
-         inline const short getTextureID() const { return m_TextureID; }
          inline components::Vec3& getPositionM() { return m_Position; }
          inline void setPosition(float x, float y, float z)
          {

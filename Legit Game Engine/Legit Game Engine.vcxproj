@@ -146,6 +146,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\core\application.cpp" />
     <ClCompile Include="src\defunct\matrix.cpp" />
     <ClCompile Include="src\Components\mat4.cpp" />
     <ClCompile Include="src\Components\vec2.cpp" />
@@ -174,6 +175,7 @@
   <ItemGroup>
     <ClInclude Include="src\Components\mat4.h" />
     <ClInclude Include="src\Components\mat4_fwd.h" />
+    <ClInclude Include="src\core\application.h" />
     <ClInclude Include="src\defunct\matrix.h" />
     <ClInclude Include="src\Components\Sys.h" />
     <ClInclude Include="src\Components\vec2.h" />
