@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{252bf64e-ad80-4d49-8bea-aa383875d568}</ProjectGuid>
-    <RootNamespace>LegitGameEngine</RootNamespace>
+    <ProjectGuid>{01c0d727-937d-4c38-a0b1-9b297f3fe971}</ProjectGuid>
+    <RootNamespace>LegitEngineSandbox</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -72,32 +72,30 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)Dependencies\GLEW;$(IncludePath);$(SolutionDir)Dependencies\GLFW</IncludePath>
-    <LibraryPath>$(SolutionDir)Dependencies\GLEW;$(SolutionDir)Dependencies\GLFW;$(LibraryPath)</LibraryPath>
+    <IncludePath>"$(SolutionDir)Legit Game Engine\LegitEngineCore\";$(SolutionDir)Dependencies\GLFW;$(SolutionDir)Dependencies\GLEW;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)Dependencies\GLEW;$(IncludePath);$(SolutionDir)Dependencies\GLFW</IncludePath>
-    <LibraryPath>$(SolutionDir)Dependencies\GLEW;$(SolutionDir)Dependencies\GLFW;$(LibraryPath)</LibraryPath>
+    <IncludePath>"$(SolutionDir)Legit Game Engine\LegitEngineCore\";$(SolutionDir)Dependencies\GLFW;$(SolutionDir)Dependencies\GLEW;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>"$(SolutionDir)Legit Game Engine\LegitEngineCore\";$(SolutionDir)Dependencies\GLFW;$(SolutionDir)Dependencies\GLEW;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>"$(SolutionDir)Legit Game Engine\LegitEngineCore\";$(SolutionDir)Dependencies\GLFW;$(SolutionDir)Dependencies\GLEW;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;GLEW_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Documents\source\repos\Legit Game Engine</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -106,16 +104,14 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;GLEW_STATIC;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Documents\source\repos\Legit Game Engine</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -146,78 +142,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="circlesim.cpp" />
-    <ClCompile Include="LegitEngineCore\src\core\application.cpp" />
-    <ClCompile Include="LegitEngineCore\src\core\define.cpp" />
-    <ClCompile Include="LegitEngineCore\src\defunct\matrix.cpp" />
-    <ClCompile Include="LegitEngineCore\src\Components\mat4.cpp" />
-    <ClCompile Include="LegitEngineCore\src\Components\vec2.cpp" />
-    <ClCompile Include="LegitEngineCore\src\Components\vec3.cpp" />
-    <ClCompile Include="LegitEngineCore\src\Components\vec4.cpp" />
-    <ClCompile Include="LegitEngineCore\src\game_assets\entity.cpp" />
-    <ClCompile Include="LegitEngineCore\src\graphics\Buffers\buffer.cpp" />
-    <ClCompile Include="LegitEngineCore\src\graphics\Buffers\indexbuffer.cpp" />
-    <ClCompile Include="LegitEngineCore\src\graphics\Buffers\vertexarray.cpp" />
-    <ClCompile Include="LegitEngineCore\src\graphics\Renderables\batchrenderer2d.cpp" />
-    <ClCompile Include="LegitEngineCore\src\graphics\Renderables\renderer2d.h" />
-    <ClCompile Include="LegitEngineCore\src\graphics\Renderables\texture.cpp" />
-    <ClCompile Include="LegitEngineCore\src\graphics\Shaders\shaders.cpp" />
-    <ClCompile Include="LegitEngineCore\src\graphics\Renderables\sprite.cpp" />
-    <ClCompile Include="LegitEngineCore\src\graphics\window.cpp" />
-    <ClCompile Include="LegitEngineCore\src\utils\debug.cpp" />
-    <ClCompile Include="LegitEngineCore\src\utils\ImGui\imgui.cpp" />
-    <ClCompile Include="LegitEngineCore\src\utils\ImGui\imgui_demo.cpp" />
-    <ClCompile Include="LegitEngineCore\src\utils\ImGui\imgui_draw.cpp" />
-    <ClCompile Include="LegitEngineCore\src\utils\ImGui\imgui_impl_glfw.cpp" />
-    <ClCompile Include="LegitEngineCore\src\utils\ImGui\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="LegitEngineCore\src\utils\ImGui\imgui_tables.cpp" />
-    <ClCompile Include="LegitEngineCore\src\utils\ImGui\imgui_widgets.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="circlesim.h" />
-    <ClInclude Include="LegitEngineCore\src\Components\mat4.h" />
-    <ClInclude Include="LegitEngineCore\src\Components\mat4_fwd.h" />
-    <ClInclude Include="LegitEngineCore\src\core\application.h" />
-    <ClInclude Include="LegitEngineCore\src\core\define.h" />
-    <ClInclude Include="LegitEngineCore\src\defunct\matrix.h" />
-    <ClInclude Include="LegitEngineCore\src\Components\Sys.h" />
-    <ClInclude Include="LegitEngineCore\src\Components\vec2.h" />
-    <ClInclude Include="LegitEngineCore\src\Components\vec3.h" />
-    <ClInclude Include="LegitEngineCore\src\Components\vec4.h" />
-    <ClInclude Include="LegitEngineCore\src\game_assets\entity.h" />
-    <ClInclude Include="LegitEngineCore\src\graphics\Buffers\buffer.h" />
-    <ClInclude Include="LegitEngineCore\src\graphics\Buffers\indexbuffer.h" />
-    <ClInclude Include="LegitEngineCore\src\graphics\Buffers\vertexarray.h" />
-    <ClInclude Include="LegitEngineCore\src\graphics\graphics_components.h" />
-    <ClInclude Include="LegitEngineCore\src\graphics\Renderables\batchrenderer2d.h" />
-    <ClInclude Include="LegitEngineCore\src\graphics\Renderables\renderable2d.h" />
-    <ClInclude Include="LegitEngineCore\src\graphics\Renderables\texture.h" />
-    <ClInclude Include="LegitEngineCore\src\graphics\Shaders\shaders.h" />
-    <ClInclude Include="LegitEngineCore\src\graphics\Renderables\sprite.h" />
-    <ClInclude Include="LegitEngineCore\src\graphics\window.h" />
-    <ClInclude Include="LegitEngineCore\src\input\input.h" />
-    <ClInclude Include="LegitEngineCore\legit_engine.h" />
-    <ClInclude Include="LegitEngineCore\src\utils\debug.h" />
-    <ClInclude Include="LegitEngineCore\src\utils\ImGui\imconfig.h" />
-    <ClInclude Include="LegitEngineCore\src\utils\ImGui\imgui.h" />
-    <ClInclude Include="LegitEngineCore\src\utils\ImGui\imgui_impl_glfw.h" />
-    <ClInclude Include="LegitEngineCore\src\utils\ImGui\imgui_impl_opengl3.h" />
-    <ClInclude Include="LegitEngineCore\src\utils\ImGui\imgui_internal.h" />
-    <ClInclude Include="LegitEngineCore\src\utils\ImGui\imstb_rectpack.h" />
-    <ClInclude Include="LegitEngineCore\src\utils\ImGui\imstb_textedit.h" />
-    <ClInclude Include="LegitEngineCore\src\utils\ImGui\imstb_truetype.h" />
-    <ClInclude Include="LegitEngineCore\src\utils\StbImage\stb_image.h" />
-    <ClInclude Include="LegitEngineCore\src\utils\StbImage\stb_image_include.h">
-      <DeploymentContent>false</DeploymentContent>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="LegitEngineCore\src\graphics\Shaders\basic.shader" />
-    <None Include="LegitEngineCore\src\graphics\Shaders\fancy_shader.shader" />
-    <None Include="LegitEngineCore\src\graphics\Shaders\light.shader" />
-    <None Include="LegitEngineCore\src\graphics\Shaders\textured.shader" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
