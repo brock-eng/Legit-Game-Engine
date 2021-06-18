@@ -21,7 +21,7 @@ namespace legit_engine {
          mat4();
          mat4(float diagonal);
 
-         static mat4 identity();
+        static mat4 identity();
 
          mat4& multiply(const mat4& m);
          friend mat4 operator*(mat4 left, const mat4& right);

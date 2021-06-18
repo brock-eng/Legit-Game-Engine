@@ -27,27 +27,28 @@ namespace legit_engine {
       }
 
       // identity matrix
-      static mat4 identity()
+      mat4 mat4::identity()
       {
          return mat4(1.0f);
       }
 
       // standard matrix multiplication
-      mat4& mat4::multiply(const mat4& m)
+      mat4& mat4::multiply(const mat4& other)
       {
-         // r -> row ; c -> collumn
-         for (int r = 0; r < 4; r++)
+         float data[16];
+         for (int row = 0; row < 4; row++)
          {
-            for (int c = 0; c < 4; c++)
+            for (int col = 0; col < 4; col++)
             {
                float sum = 0.0f;
-               for (int i = 0; i < 4; i++)
+               for (int e = 0; e < 4; e++)
                {
-                  sum += elements[r + i * 4] * m.elements[i + r * 4];
+                  sum += elements[e + row * 4] * other.elements[col + e * 4];
                }
-               elements[c + r * 4] = sum;
+               data[col + row * 4] = sum;
             }
          }
+         memcpy(elements, data, 4 * 4 * sizeof(float));
          return *this;
       }
  
@@ -81,16 +82,19 @@ namespace legit_engine {
       mat4 mat4::perspective(float fov, float aspect, float near, float far)
       {
          
-         mat4 result;
+         mat4 result(1.0f);
 
-         float deg = std::tan(fov * PI / (2 * 180));
-         float res = (near + far) / (near - far);
+         float q = 1.0f / tan(PI/ 180.0f * (0.5f * fov));
+         float a = q / aspect;
 
-         result.elements[0 + 0 * SIZE] = 1 / (aspect * deg);
-         result.elements[1 + 1 * SIZE] = 1 / (deg);
-         result.elements[2 + 2 * SIZE] = res;
-         result.elements[3 + 2 * SIZE] = -1.0f;
-         result.elements[2 + 3 * SIZE] = 2.0f * far * near / (far - near);
+         float b = (near + far) / (near - far);
+         float c = (2.0f * near * far) / (near - far);
+
+         result.elements[0 + 0 * 4] = a;
+         result.elements[1 + 1 * 4] = q;
+         result.elements[2 + 2 * 4] = b;
+         result.elements[2 + 3 * 4] = -1.0f;
+         result.elements[3 + 2 * 4] = c;
 
          return result;
       }
@@ -101,26 +105,26 @@ namespace legit_engine {
       {
          mat4 result(1.0f);
 
-         angle *= PI / 180.0f;
-         float c = cos(angle);
-         float s = sin(angle);
+         float r = angle * 3.13159f / 180.0f;
+         float c = cos(r);
+         float s = sin(r);
          float omc = 1.0f - c;
 
          float x = axis.x;
          float y = axis.y;
          float z = axis.z;
 
-         result.elements[0 + 0 * SIZE] = x * omc + c;
-         result.elements[1 + 0 * SIZE] = y * x * omc + z * s;
-         result.elements[2 + 0 * SIZE] = x * z * omc - y *s;
+         result.elements[0 + 0 * 4] = x * x * omc + c;
+         result.elements[0 + 1 * 4] = y * x * omc + z * s;
+         result.elements[0 + 2 * 4] = x * z * omc - y * s;
 
-         result.elements[0 + 1 * SIZE] = y * x * omc - z * s;
-         result.elements[1 + 1 * SIZE] = y * y * omc + c;
-         result.elements[2 + 1 * SIZE] = y * z * omc + x * s;
-         
-         result.elements[0 + 1 * SIZE] = x * z * omc + y * s;
-         result.elements[1 + 1 * SIZE] = y * z * omc - x * s;
-         result.elements[2 + 1 * SIZE] = z * z * omc + c;
+         result.elements[1 + 0 * 4] = x * y * omc - z * s;
+         result.elements[1 + 1 * 4] = y * y * omc + c;
+         result.elements[1 + 2 * 4] = y * z * omc + x * s;
+
+         result.elements[2 + 0 * 4] = x * z * omc + y * s;
+         result.elements[2 + 1 * 4] = y * z * omc - x * s;
+         result.elements[2 + 2 * 4] = z * z * omc + c;
 
          return result;
       }
@@ -128,11 +132,11 @@ namespace legit_engine {
       // returns a scaling matrix
       mat4 mat4::scale(const Vec3& scale)
       {
-         mat4 result(1.0f);
+         mat4 result(0.0f);
          
-         result.elements[0 + 4 * SIZE] = scale.x;
-         result.elements[1 + 4 * SIZE] = scale.y;
-         result.elements[2 + 4 * SIZE] = scale.z;
+         result.elements[0 + 0 * SIZE] = scale.x;
+         result.elements[1 + 1 * SIZE] = scale.y;
+         result.elements[2 + 2 * SIZE] = scale.z;
 
          return result;
       }
@@ -142,9 +146,9 @@ namespace legit_engine {
       {
          mat4 result(1.0f);
 
-         result.elements[3 + 0 * SIZE] = translation.x;
-         result.elements[3 + 1 * SIZE] = translation.y;
-         result.elements[3 + 2 * SIZE] = translation.z;
+         result.elements[3 + 0 * 4] = translation.x;
+         result.elements[3 + 1 * 4] = translation.y;
+         result.elements[3 + 2 * 4] = translation.z;
 
          return result;
       }

@@ -20,7 +20,7 @@ out DATA
 
 void main()
 {
-   vec4 calc_position = position *  pr_matrix;
+   vec4 calc_position = position *  pr_matrix * vw_matrix * ml_matrix;
    gl_Position = calc_position;// *vw_matrix* ml_matrix;
    vs_out.position = calc_position; // *pr_matrix;
    vs_out.texCoords = texCoords;

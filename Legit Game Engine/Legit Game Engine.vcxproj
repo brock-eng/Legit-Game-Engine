@@ -146,12 +146,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\Components\mat3.cpp" />
     <ClCompile Include="src\core\application.cpp" />
     <ClCompile Include="src\defunct\matrix.cpp" />
     <ClCompile Include="src\Components\mat4.cpp" />
     <ClCompile Include="src\Components\vec2.cpp" />
     <ClCompile Include="src\Components\vec3.cpp" />
     <ClCompile Include="src\Components\vec4.cpp" />
+    <ClCompile Include="src\game_assets\entity.cpp" />
     <ClCompile Include="src\graphics\Buffers\buffer.cpp" />
     <ClCompile Include="src\graphics\Buffers\indexbuffer.cpp" />
     <ClCompile Include="src\graphics\Buffers\vertexarray.cpp" />
@@ -173,6 +175,7 @@
     <ClCompile Include="src\utils\ImGui\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Components\mat3.h" />
     <ClInclude Include="src\Components\mat4.h" />
     <ClInclude Include="src\Components\mat4_fwd.h" />
     <ClInclude Include="src\core\application.h" />
@@ -181,6 +184,7 @@
     <ClInclude Include="src\Components\vec2.h" />
     <ClInclude Include="src\Components\vec3.h" />
     <ClInclude Include="src\Components\vec4.h" />
+    <ClInclude Include="src\game_assets\entity.h" />
     <ClInclude Include="src\graphics\Buffers\buffer.h" />
     <ClInclude Include="src\graphics\Buffers\indexbuffer.h" />
     <ClInclude Include="src\graphics\Buffers\vertexarray.h" />
@@ -194,6 +198,7 @@
     <ClInclude Include="src\graphics\Renderables\static_sprite.h" />
     <ClInclude Include="src\graphics\window.h" />
     <ClInclude Include="src\helpers.h" />
+    <ClInclude Include="src\input\input.h" />
     <ClInclude Include="src\utils\debug.h" />
     <ClInclude Include="src\utils\ImGui\imconfig.h" />
     <ClInclude Include="src\utils\ImGui\imgui.h" />

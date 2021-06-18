@@ -4,6 +4,8 @@
 
 #include "sprite.h"
 #include "renderer2D.h"
+#include "../../game_assets/entity.h"
+
 #include "../Buffers/vertexarray.h"
 
 #include "../../Components/Sys.h"
@@ -27,24 +29,33 @@ namespace legit_engine {
       class BatchRenderer2D : public Renderer2D
       {
       private:
+         components::Vec4 s_QuadVertices[4];
+
+      protected:
          buffers::IndexBuffer* m_IBO;
          GLuint m_VBO;
          GLuint m_VAO;
          VertexData* m_Buffer;
          GLsizei m_IndexCount;
 
+         float m_ScreenWidth, m_ScreenHeight;
+
          std::vector<unsigned int> m_Textures;
       protected:
 
 
       public:
-         BatchRenderer2D();
+         BatchRenderer2D(float screenWidth, float screenHeight);
          ~BatchRenderer2D();
+         void UpdateScreenSize(float screenWidth, float screenHeight);
          void begin();
          void submit(const Renderable2D* renderable) override;
          void submitSprite(const Sprite* sprite);
+         void submitEntity(const Entity* entity);
          void end();
          void flush() override;
+
+         inline const bool bufferHasData() { return m_Buffer != nullptr; };
 
       private: 
          void init();
