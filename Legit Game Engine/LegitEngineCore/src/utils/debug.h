@@ -4,9 +4,11 @@
 
 #pragma once
 
-#include <Windows.h>
+#include <windows.h>
+#include <psapi.h>
 #include <iostream>
 #include <thread>
+#include <vector>
 
 #include "../graphics/window.h"
 
@@ -28,6 +30,7 @@ namespace legit_engine {
          void timerStart();
          void update();
          void showFPS(graphics::Window* window, const char* title = "Application");
+         std::pair<float, float> getMemoryUsage();
          void pollPerformance();
 
          static void GLClearError();

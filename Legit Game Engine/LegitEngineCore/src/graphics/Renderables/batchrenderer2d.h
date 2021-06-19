@@ -53,6 +53,7 @@ namespace legit_engine {
          void submit(const Renderable2D* renderable) override;
          void submitSprite(const Sprite* sprite);
          void submitEntity(const Entity* entity);
+         void submitEntity(float x, float y, float width, float height, float rotation, Texture* texture, const std::vector<components::Vec2> uv = Renderable2D::getDefaultUV());
          void submitLine(float x0, float y0, float x1, float y1, unsigned int color, float thickness);
 
          void end();

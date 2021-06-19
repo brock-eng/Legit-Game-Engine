@@ -290,6 +290,95 @@ namespace legit_engine {
          m_IndexCount += 6;
       }
 
+      void BatchRenderer2D::submitEntity(float x, float y, float width, float height, float rotation, Texture* texture, const std::vector<Vec2> uv)
+      {
+         const Vec2& size = { width, height };
+         const Vec3& position = { x, y, 0.0f };
+         float tid = texture->getID();
+         unsigned int c = 0;
+
+         if (m_Buffer == NULL)
+         {
+            std::cout << "Error: Renderer2D -> m_Buffer was nullptr." << std::endl;
+            return;
+         }
+
+         float ts = 0.0f;
+         if (tid > 0)
+         {
+            bool found = false;
+            for (int i = 0; i < m_Textures.size(); i++)
+               if (tid == m_Textures[i])
+               {
+                  ts = (float)(i + 1);
+                  found = true;
+                  break;
+               }
+
+            if (!found)
+            {
+               if (m_Textures.size() >= MAX_TEXTURES)
+               {
+                  end();
+                  flush();
+                  begin();
+               }
+               m_Textures.push_back(tid);
+               ts = (float)m_Textures.size();
+            }
+         }
+
+
+         Vec4 quadVertices[4];
+         if (rotation)
+         {
+            rotation *= PI / 180.0f;
+
+            float SIN = sin(rotation);
+            float COS = cos(rotation);
+
+
+            quadVertices[0] = { position.x + (COS * -size.x / 2.0f - SIN * -size.y / 2.0f),  position.y + (SIN * -size.x / 2.0f + COS * -size.y / 2.0f), 0, 0 };
+            quadVertices[1] = { position.x + (COS * -size.x / 2.0f - SIN * size.y / 2.0f),   position.y + (SIN * -size.x / 2.0f + COS * size.y / 2.0f), 0, 0 };
+            quadVertices[2] = { position.x + (COS * size.x / 2.0f - SIN * size.y / 2.0f),    position.y + (SIN * size.x / 2.0f + COS * size.y / 2.0f), 0, 0 };
+            quadVertices[3] = { position.x + (COS * size.x / 2.0f - SIN * -size.y / 2.0f),   position.y + (SIN * size.x / 2.0f + COS * -size.y / 2.0f), 0, 0 };
+         }
+         else
+         {
+            quadVertices[0] = { position.x - size.x, position.y - size.y, 0, 0 };
+            quadVertices[1] = { position.x - size.x, position.y + size.y, 0, 0 };
+            quadVertices[2] = { position.x + size.x, position.y + size.y, 0, 0 };
+            quadVertices[3] = { position.x + size.x, position.y - size.y, 0, 0 };
+         }
+
+
+         m_Buffer->vertex = { quadVertices[0].x, quadVertices[0].y, quadVertices[0].z };
+         m_Buffer->texCoords = uv[0];
+         m_Buffer->color = c;
+         m_Buffer->textureIndex = ts;
+         m_Buffer++;
+
+         m_Buffer->vertex = { quadVertices[1].x, quadVertices[1].y, quadVertices[1].z };
+         m_Buffer->texCoords = uv[1];
+         m_Buffer->color = c;
+         m_Buffer->textureIndex = ts;
+         m_Buffer++;
+
+         m_Buffer->vertex = { quadVertices[2].x, quadVertices[2].y, quadVertices[2].z };
+         m_Buffer->texCoords = uv[2];
+         m_Buffer->color = c;
+         m_Buffer->textureIndex = ts;
+         m_Buffer++;
+
+         m_Buffer->vertex = { quadVertices[3].x, quadVertices[3].y, quadVertices[3].z };
+         m_Buffer->texCoords = uv[3];
+         m_Buffer->color = c;
+         m_Buffer->textureIndex = ts;
+         m_Buffer++;
+
+         m_IndexCount += 6;
+      }
+
       void BatchRenderer2D::submitLine(float x0, float y0, float x1, float y1, unsigned int color, float thickness)
       {
          const std::vector<Vec2>& uv = { {0, 0}, {0, 1}, {1, 1}, {1, 0} };
@@ -305,24 +394,28 @@ namespace legit_engine {
          m_Buffer->vertex = vertex;
          m_Buffer->texCoords = uv[0];
          m_Buffer->color = color;
+         m_Buffer->textureIndex = ts;
          m_Buffer++;
 
          vertex = Vec3(x1 + normal.x, y1 + normal.y, 0.0f);
          m_Buffer->vertex = vertex;
          m_Buffer->texCoords = uv[1];
          m_Buffer->color = color;
+         m_Buffer->textureIndex = ts;
          m_Buffer++;
 
          vertex = Vec3(x1 - normal.x, y1 - normal.y, 0.0f);
          m_Buffer->vertex = vertex;
          m_Buffer->texCoords = uv[2];
          m_Buffer->color = color;
+         m_Buffer->textureIndex = ts;
          m_Buffer++;
 
          vertex = Vec3(x0 - normal.x, y0 - normal.y, 0.0f);
          m_Buffer->vertex = vertex;
          m_Buffer->texCoords = uv[3];
          m_Buffer->color = color;
+         m_Buffer->textureIndex = ts;
          m_Buffer++;
 
          m_IndexCount += 6;

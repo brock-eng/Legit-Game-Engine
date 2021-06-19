@@ -66,6 +66,16 @@ namespace legit_engine {
             m_Position.z = z;
          }
 
+         static const std::vector<components::Vec2> getDefaultUV()
+         {
+            return std::vector<components::Vec2>
+            {
+               { 0, 0 },
+               { 0, 1 },
+               { 1, 1 },
+               { 1, 0 }
+            };
+         }
       private:
          void defaultUV()
          {

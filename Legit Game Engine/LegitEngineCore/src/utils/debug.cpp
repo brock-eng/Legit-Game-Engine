@@ -52,6 +52,26 @@ namespace legit_engine {
          glfwSetWindowTitle(window->getWindowPointer(), ss.str().c_str());
       }
 
+      std::pair<float, float> DebugUtil::getMemoryUsage()
+      {
+         // total memory usage
+         MEMORYSTATUSEX memInfo;
+         memInfo.dwLength = sizeof(MEMORYSTATUSEX);
+         GlobalMemoryStatusEx(&memInfo);
+         DWORDLONG totalVirtualMem = memInfo.ullTotalPageFile;
+         DWORDLONG totalPhysMem = memInfo.ullTotalPhys;
+
+         // virtual memory used by current process
+         PROCESS_MEMORY_COUNTERS_EX pmc;
+         GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(pmc));
+         SIZE_T virtualMemUsedByMe = pmc.PrivateUsage;
+
+         // physical memory used by current process
+         SIZE_T physMemUsedByMe = pmc.WorkingSetSize;
+
+         return { (float)virtualMemUsedByMe/(float)totalVirtualMem, (float)physMemUsedByMe/(float)totalPhysMem };
+      }
+
       void DebugUtil::timerStart()
       {
          m_StartTime = glfwGetTime();

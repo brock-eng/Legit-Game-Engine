@@ -4,6 +4,12 @@
 #define STB_IMAGE_IMPLEMENTATION
 #endif
 
+#ifndef _CRTDBG_MAP_ALLOC
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+#endif
+
 #include "application.h"
 
 namespace legit_engine {
@@ -18,7 +24,7 @@ namespace legit_engine {
    {
       m_Window = new graphics::Window(name, screenWidth, screenHeight);
       m_Renderer = new renderables::BatchRenderer2D(screenWidth, screenHeight);
-      m_Shader = new shaders::Shader("LegitEngineCore/src/graphics/shaders/textured.shader");
+      m_Shader = new shaders::Shader("res/textured.shader");
       m_DebugAPI = new utils::DebugUtil();
 
       // Basic shader setup.  Legit engine currently does not support multiple shader files for 
@@ -41,6 +47,10 @@ namespace legit_engine {
       delete m_Renderer;
       delete m_Shader;
       delete m_Window;
+
+      // report memory links to vs debugger window
+      _CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG);
+      _CrtDumpMemoryLeaks();
    }
 
    void Application::Start()
