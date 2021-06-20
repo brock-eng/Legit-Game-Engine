@@ -36,9 +36,6 @@
     <ClCompile Include="LegitEngineCore\src\core\application.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LegitEngineCore\src\core\define.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="LegitEngineCore\src\defunct\matrix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -120,9 +117,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LegitEngineCore\src\core\application.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LegitEngineCore\src\core\define.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LegitEngineCore\src\defunct\matrix.h">

@@ -19,13 +19,14 @@ namespace legit_engine {
          m_Name = name;
          m_ScreenWidth = width;
          m_ScreenHeight = height;
+         m_DisplayMode = false;
+
          if (!Initialize())
          {
             glfwTerminate();
             std::cout << "GLFW: Initializer Failed.";
          }
-
-
+         
          for (int i = 0; i < MAX_KEYS; i++)
          {
             m_Keys[i] = false;
@@ -70,6 +71,15 @@ namespace legit_engine {
          }
 
          std::cout << "OpenGL " << glGetString(GL_VERSION) << std::endl;
+
+         // monitor information check
+         m_Monitor = glfwGetPrimaryMonitor();
+         const GLFWvidmode* mode = glfwGetVideoMode(m_Monitor);
+         glfwSetWindowPos(m_Window, (mode->width - m_ScreenWidth) / 2, (mode->height - m_ScreenHeight) / 2);
+         if (mode->width < m_ScreenWidth || mode->height < m_ScreenHeight)
+         {
+            std::cout << "Warning: Input screen dimensions are bigger than the current desktop resolution." << std::endl;
+         }
          return true;
       }
 
@@ -150,9 +160,10 @@ namespace legit_engine {
 
       components::Vec2 Window::getMousePosition()
       {
-         return components::Vec2(m_MouseX, m_MouseY);
+         return components::Vec2(m_MouseX, -m_MouseY + m_ScreenHeight);
       }
 
+      // Returns mouse coordinates at a normalized -1 to 1 scale
       void Window::getMousePositionNormalized(float& X, float &Y)
       {
          X = m_MouseX * 2.0f / m_ScreenWidth - 1;
@@ -164,6 +175,28 @@ namespace legit_engine {
          return components::Vec2(m_MouseX, m_MouseY * -1.0f + m_ScreenHeight);
       }
       
+      // Sets the current display mode to fullscreen.
+      // Will automatically change to windowed mode if already in fullscreen when called.
+      void Window::setFullscreen()
+      {
+         const GLFWvidmode* mode = glfwGetVideoMode(m_Monitor);
+
+         if (!m_DisplayMode)
+         {
+            int width, height, x, y;
+            glfwGetWindowPos(m_Window, &x, &y);
+            glfwGetWindowSize(m_Window, &width, &height);
+            m_WindowProperties.set(width, height, x, y);
+            glfwSetWindowMonitor(m_Window, m_Monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+         }
+         else
+         {
+            glfwSetWindowMonitor(m_Window, nullptr, m_WindowProperties.xPos, m_WindowProperties.yPos, m_WindowProperties.width, m_WindowProperties.height, mode->refreshRate);
+         }
+         m_DisplayMode = !m_DisplayMode;
+      }
+
+
       GLFWwindow* Window::getWindowPointer()
       {
          return m_Window;

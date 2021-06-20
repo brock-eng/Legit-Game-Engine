@@ -73,6 +73,7 @@ namespace legit_engine {
 
       void Start();
 
+
    private:
       void ApplicationThread();
 
@@ -83,6 +84,7 @@ namespace legit_engine {
       components::Vec2 getMousePosition();
       void getMousePositionNormalized(float& mouseX, float& mouseY);
       components::Vec2 getMousePositionNormalized();
+      inline const void setFullScreen() const { m_Window->setFullscreen(); }
 
    private:
       void bootGui(legit_engine::graphics::Window* window);

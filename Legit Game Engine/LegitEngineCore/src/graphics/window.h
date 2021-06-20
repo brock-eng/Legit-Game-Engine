@@ -14,13 +14,31 @@ namespace legit_engine {
 #endif
    
 
+      struct WindowDimensions
+      {
+         float height, width;
+         float xPos, yPos;
+
+         void set(float  w, float h, float  x, float  y)
+         {
+            height = h;
+            width = w;
+            xPos = x;
+            yPos = y;
+         }
+      };
+
       class Window
       {
       private:
-         const char *m_Name;
+         const char* m_Name;
          int m_ScreenWidth, m_ScreenHeight;
-         GLFWwindow *m_Window;
+         GLFWwindow* m_Window;
+         GLFWmonitor* m_Monitor;
          bool m_Closed;
+         bool m_DisplayMode;
+
+         WindowDimensions m_WindowProperties;
 
          static bool m_Keys[MAX_KEYS];
          static bool m_MouseButtons[MAX_BUTTONS];
@@ -43,6 +61,8 @@ namespace legit_engine {
          components::Vec2 getMousePosition();
          void getMousePositionNormalized(float& X, float& Y);
          components::Vec2 getMousePositionNormalized();
+
+         void setFullscreen();
 
          GLFWwindow* getWindowPointer();
 

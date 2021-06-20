@@ -57,8 +57,8 @@ namespace legit_engine {
    {
       bootGui(m_Window);
 
-      m_Window->getMousePositionNormalized(m_MousePosition.x, m_MousePosition.y);
       m_Window->getWindowSize(m_ScreenWidth, m_ScreenHeight);
+      m_Window->getMousePositionNormalized(m_MousePosition.x, m_MousePosition.y);
 
       ApplicationThread();
 
@@ -72,7 +72,6 @@ namespace legit_engine {
       {
          m_Active = false;
       }
-
 
       float fOldTime = glfwGetTime();
       m_DebugAPI->timerStart();

@@ -149,7 +149,6 @@
   <ItemGroup>
     <ClCompile Include="circlesim.cpp" />
     <ClCompile Include="LegitEngineCore\src\core\application.cpp" />
-    <ClCompile Include="LegitEngineCore\src\core\define.cpp" />
     <ClCompile Include="LegitEngineCore\src\defunct\matrix.cpp" />
     <ClCompile Include="LegitEngineCore\src\Components\mat4.cpp" />
     <ClCompile Include="LegitEngineCore\src\Components\vec2.cpp" />
@@ -179,7 +178,6 @@
     <ClInclude Include="LegitEngineCore\src\Components\mat4.h" />
     <ClInclude Include="LegitEngineCore\src\Components\mat4_fwd.h" />
     <ClInclude Include="LegitEngineCore\src\core\application.h" />
-    <ClInclude Include="LegitEngineCore\src\core\define.h" />
     <ClInclude Include="LegitEngineCore\src\defunct\matrix.h" />
     <ClInclude Include="LegitEngineCore\src\Components\Sys.h" />
     <ClInclude Include="LegitEngineCore\src\Components\vec2.h" />
