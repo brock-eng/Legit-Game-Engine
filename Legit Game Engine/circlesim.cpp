@@ -65,9 +65,6 @@ protected:
       }
    };
 
-
-   vector <ball*> theBalls;  // vector of balls
-
    void AddBall(float x, float y, Texture* texture, float radius = defaultRadius)
    {
       ball* newBall = new ball();
@@ -138,6 +135,7 @@ protected:
             }
          }
 
+         // checking for collisions on the line
          for (sLineSegment* line : theLines)
          {
             // Check that line formed by velocity vector, intersects with line segment
@@ -150,16 +148,16 @@ protected:
             float fEdgeLength = fLineX1 * fLineX1 + fLineY1 * fLineY1;
 
             // This effectively calculates the 'shadow' casted on the line by the ball
-            // effectively retrieves the closest point on the line to the ball
+            // finding the closest point to the ball that is on the line
             float t = max(0, min(fEdgeLength, (fLineX1 * fLineX2 + fLineY1 * fLineY2))) / fEdgeLength;
             float fClosestPointX = line->sx + t * fLineX1;
             float fClosestPointY = line->sy + t * fLineY1;
 
-            // check for a collision
+            // distance from ball to closest point on the line
             float fDistance = sqrtf((currBall->x - fClosestPointX) * (currBall->x - fClosestPointX) + (currBall->y - fClosestPointY) * (currBall->y - fClosestPointY));
 
 
-            // 
+            // checking for overlap
             if (fDistance <= (currBall->radius + line->radius))
             {
                ball* temp = new ball();
@@ -181,6 +179,7 @@ protected:
             }
          }
       }
+      // resolving dynamic collisions
       if (collisionLog.size() > 0)
       {
          for (auto& collision : collisionLog)
@@ -203,6 +202,7 @@ protected:
       }
    }
 
+   // modifying each balls physics values
    void PhysicsSim(float elapsedTime)
    {
       for (auto& currBall : theBalls)
@@ -216,7 +216,8 @@ protected:
          currBall->x += currBall->vx * elapsedTime;
          currBall->y += currBall->vy * elapsedTime;
 
-         if (fabs(currBall->vx * currBall->vx + currBall->vy * currBall->vy) < 0.2f)
+         // clamp to zero at low enough velocity
+         if (fabs(currBall->vx * currBall->vx + currBall->vy * currBall->vy) < 0.05f)
          {
             currBall->vx = 0;
             currBall->vy = 0;
@@ -251,6 +252,7 @@ public:
    sLineSegment* selectedLine = nullptr;
 
    // containers for our simulation data
+   vector <ball*> theBalls;         
    vector <collision> collisionLog; 
    vector <sLineSegment*> theLines;
    vector <ball*> fakeBalls;
@@ -270,7 +272,7 @@ public:
    bool renderControlInfo = false;
    bool renderAbout = false;
    // game assets
-   Texture ballSprite = Texture("res/pepesprites.png");
+   Texture ballSprite = Texture("res/cirlce.png");
 
 public:
    bool OnUserCreate() override
