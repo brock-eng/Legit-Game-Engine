@@ -48,7 +48,7 @@ namespace legit_engine {
       delete m_Shader;
       delete m_Window;
 
-      // report memory links to vs debugger window
+      // report memory leaks to vs debugger window
       _CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG);
       _CrtDumpMemoryLeaks();
    }

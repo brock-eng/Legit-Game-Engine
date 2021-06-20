@@ -270,7 +270,7 @@ public:
    bool renderControlInfo = false;
    bool renderAbout = false;
    // game assets
-   Texture ballSprite = Texture("res/cirlce.png");
+   Texture ballSprite = Texture("res/pepesprites.png");
 
 public:
    bool OnUserCreate() override
@@ -441,10 +441,9 @@ public:
          nx = nx / d * (line->radius - lineThickness/2.0f);
          ny = ny / d * (line->radius - lineThickness/2.0f);
 
+         m_Renderer->submitLine(line->sx, line->sy, line->ex, line->ey, 10101010, line->radius);
          m_Renderer->submitEntity(line->sx, line->sy, line->radius, line->radius, 0.0f, &ballSprite);
          m_Renderer->submitEntity(line->ex, line->ey, line->radius, line->radius, 0.0f, &ballSprite);
-         m_Renderer->submitLine(line->sx + nx, line->sy + ny, line->ex + nx, line->ey + ny, 10101010, lineThickness);
-         m_Renderer->submitLine(line->sx - nx, line->sy - ny, line->ex - nx, line->ey - ny, 10101010, lineThickness);
 
       }
 
