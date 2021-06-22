@@ -54,12 +54,20 @@ namespace legit_engine {
          bool bHeld;
       } m_Keys[MAX_KEYS], m_Mouse[MAX_BUTTONS];
 
-      // Similar to sKeyStates, this is intended to be probed for the pointers x and y coords
+      // This is intended to be probed for the pointers x and y coords
       struct mouseCoords
       {
          float x;
          float y;
       } m_MousePosition;
+
+      struct scrollState
+      {
+         bool up;
+         bool down;
+         bool right;
+         bool left;
+      } m_MouseScroll;
       
       float m_ScreenWidth, m_ScreenHeight;
 
@@ -85,6 +93,8 @@ namespace legit_engine {
       void getMousePositionNormalized(float& mouseX, float& mouseY);
       components::Vec2 getMousePositionNormalized();
       inline const void setFullScreen() const { m_Window->setFullscreen(); }
+      void getScrollWheel();
+
 
    private:
       void bootGui(legit_engine::graphics::Window* window);

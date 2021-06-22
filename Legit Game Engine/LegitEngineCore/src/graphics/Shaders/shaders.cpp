@@ -49,7 +49,7 @@ namespace legit_engine {
 
       void Shader::setUniform1i(const GLchar* name, int value)
       {
-         glUniform1f(GetUniformLocation(name), value);
+         glUniform1i(GetUniformLocation(name), value);
       }
 
       void Shader::setUniform2f(const GLchar* name, const components::Vec2& vector2D)

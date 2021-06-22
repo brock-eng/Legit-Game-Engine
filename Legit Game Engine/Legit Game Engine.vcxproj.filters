@@ -63,9 +63,6 @@
     <ClCompile Include="LegitEngineCore\src\graphics\Renderables\texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LegitEngineCore\src\graphics\Shaders\shaders.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="LegitEngineCore\src\graphics\window.cpp">
       <Filter>src\graphics</Filter>
     </ClCompile>
@@ -93,7 +90,13 @@
     <ClCompile Include="LegitEngineCore\src\utils\debug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="circlesim.cpp">
+    <ClCompile Include="mandelbrot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LegitEngineCore\src\graphics\Shaders\shaders.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LegitEngineCore\src\graphics\Renderables\pixelrenderer2d.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -146,9 +149,6 @@
     <ClInclude Include="LegitEngineCore\src\graphics\Renderables\texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LegitEngineCore\src\graphics\Shaders\shaders.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="LegitEngineCore\src\graphics\graphics_components.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -194,14 +194,16 @@
     <ClInclude Include="LegitEngineCore\legit_engine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="circlesim.h">
+    <ClInclude Include="LegitEngineCore\src\graphics\Shaders\shaders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LegitEngineCore\src\graphics\Renderables\pixelrenderer2d.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="LegitEngineCore\src\graphics\Shaders\basic.shader" />
-    <None Include="LegitEngineCore\src\graphics\Shaders\fancy_shader.shader" />
-    <None Include="LegitEngineCore\src\graphics\Shaders\light.shader" />
-    <None Include="LegitEngineCore\src\graphics\Shaders\textured.shader" />
+    <None Include="res\Shaders\basic.shader" />
+    <None Include="res\Shaders\fancy_shader.shader" />
+    <None Include="res\Shaders\light.shader" />
   </ItemGroup>
 </Project>

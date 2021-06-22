@@ -7,11 +7,13 @@ namespace legit_engine {
 
       bool Window::m_Keys[MAX_KEYS];
       bool Window::m_MouseButtons[MAX_BUTTONS];
+      double Window::m_MouseScroll[2];
       double Window::m_MouseX, Window::m_MouseY;
 
       void GLFWresize_callback(GLFWwindow* window, int m_ScreenWidth, int m_ScreenHeight);
       void GLFWkey_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
       void GLFWmouse_callback(GLFWwindow* window, int button, int action, int mods);
+      void GLFWscroll_callback(GLFWwindow* window, double xoffset, double yoffset);
       void GLFWcursor_position_callback(GLFWwindow* window, double xpos, double ypos);
 
       Window::Window(const char *name, int width, int height)
@@ -61,6 +63,7 @@ namespace legit_engine {
          glfwSetWindowUserPointer(m_Window, this);
          glfwSetWindowSizeCallback(m_Window, GLFWresize_callback);
          glfwSetKeyCallback(m_Window, GLFWkey_callback);
+         glfwSetScrollCallback(m_Window, GLFWscroll_callback);
          glfwSetMouseButtonCallback(m_Window, GLFWmouse_callback);
          glfwSetCursorPosCallback(m_Window, GLFWcursor_position_callback);
 
@@ -174,6 +177,16 @@ namespace legit_engine {
       {
          return components::Vec2(m_MouseX, m_MouseY * -1.0f + m_ScreenHeight);
       }
+
+      void Window::getScrollWheel(float& xOffset, float& yOffset)
+      {
+         xOffset = m_MouseScroll[0];
+         yOffset = m_MouseScroll[1];
+
+         m_MouseScroll[0] = 0;
+         m_MouseScroll[1] = 0;
+      }
+
       
       // Sets the current display mode to fullscreen.
       // Will automatically change to windowed mode if already in fullscreen when called.
@@ -196,15 +209,13 @@ namespace legit_engine {
          m_DisplayMode = !m_DisplayMode;
       }
 
-
       GLFWwindow* Window::getWindowPointer()
       {
          return m_Window;
       }
+      
 
-      /*
-         Callback functions
-      */
+      // Input handling callback functions
          
       void GLFWkey_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
       {
@@ -218,10 +229,16 @@ namespace legit_engine {
          winD->m_MouseButtons[button] = (action != GLFW_RELEASE);
       }
 
+      void GLFWscroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+      {
+         Window* winD = (Window*)glfwGetWindowUserPointer(window);
+         winD->m_MouseScroll[0] = xoffset;
+         winD->m_MouseScroll[1] = yoffset;
+      }
+
       void GLFWcursor_position_callback(GLFWwindow* window, double xpos, double ypos)
       {
          Window* winD = (Window*)glfwGetWindowUserPointer(window);
-         //glfwGetCursorPos(window, &xpos, &ypos);
          winD->m_MouseX = xpos;
          winD->m_MouseY = ypos;
       }

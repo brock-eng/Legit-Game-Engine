@@ -19,6 +19,7 @@ namespace legit_engine {
          };
 
          mat4();
+         mat4(float (&floatArray)[SIZE*SIZE]);
          mat4(float diagonal);
 
         static mat4 identity();

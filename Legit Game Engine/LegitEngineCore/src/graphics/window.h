@@ -42,6 +42,7 @@ namespace legit_engine {
 
          static bool m_Keys[MAX_KEYS];
          static bool m_MouseButtons[MAX_BUTTONS];
+         static double m_MouseScroll[2];
          static double m_MouseX, m_MouseY;
          
       public:
@@ -61,6 +62,7 @@ namespace legit_engine {
          components::Vec2 getMousePosition();
          void getMousePositionNormalized(float& X, float& Y);
          components::Vec2 getMousePositionNormalized();
+         void getScrollWheel(float& xOffset, float& yOffset);
 
          void setFullscreen();
 
@@ -73,6 +75,7 @@ namespace legit_engine {
          friend static void GLFWkey_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
          friend static void GLFWmouse_callback(GLFWwindow* window, int button, int action, int mods);
          friend static void GLFWcursor_position_callback(GLFWwindow* window, double xpos, double ypos);
+         friend static void GLFWscroll_callback(GLFWwindow* window, double xoffset, double yoffset);
       };
    }
 }

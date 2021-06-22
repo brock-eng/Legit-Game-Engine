@@ -46,7 +46,7 @@ in DATA
 } fs_in;
 
 uniform vec4 colour;
-uniform vec2 light_pos;
+uniform vec2 light_pos = { 0.0f, 0.0f };
 uniform float light_level = 1.0f;
 uniform sampler2D textures[32];
 uniform sampler2D textureTest;
@@ -57,7 +57,7 @@ void main()
    int textureCurr = int(fs_in.textureID);
    float noTexture = 0.0f;
    if (fs_in.textureID == noTexture)
-      color = fs_in.color * intensity * light_level;
+      color = fs_in.color; // *intensity* light_level;
    else
    {
       color = texture(textures[textureCurr], fs_in.texCoords) * intensity * light_level;

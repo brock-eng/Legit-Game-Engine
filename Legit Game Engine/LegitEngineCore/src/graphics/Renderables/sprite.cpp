@@ -5,6 +5,9 @@
 namespace legit_engine {
    namespace renderables {
 
+      Sprite::Sprite()
+         : Renderable2D(components::Vec3(0, 0, 0), components::Vec2(0, 0), 0, 0)
+      {}
 
       Sprite::Sprite(float x, float y, float width, float height, const components::Vec4& color, shaders::Shader* shader)
          : Renderable2D(components::Vec3(x, y, 0), components::Vec2(width, height), color, 0), m_Shader(shader)

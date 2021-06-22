@@ -147,7 +147,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="circlesim.cpp" />
     <ClCompile Include="LegitEngineCore\src\core\application.cpp" />
     <ClCompile Include="LegitEngineCore\src\defunct\matrix.cpp" />
     <ClCompile Include="LegitEngineCore\src\Components\mat4.cpp" />
@@ -159,6 +158,7 @@
     <ClCompile Include="LegitEngineCore\src\graphics\Buffers\indexbuffer.cpp" />
     <ClCompile Include="LegitEngineCore\src\graphics\Buffers\vertexarray.cpp" />
     <ClCompile Include="LegitEngineCore\src\graphics\Renderables\batchrenderer2d.cpp" />
+    <ClCompile Include="LegitEngineCore\src\graphics\Renderables\pixelrenderer2d.cpp" />
     <ClCompile Include="LegitEngineCore\src\graphics\Renderables\renderer2d.h" />
     <ClCompile Include="LegitEngineCore\src\graphics\Renderables\texture.cpp" />
     <ClCompile Include="LegitEngineCore\src\graphics\Shaders\shaders.cpp" />
@@ -172,9 +172,9 @@
     <ClCompile Include="LegitEngineCore\src\utils\ImGui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="LegitEngineCore\src\utils\ImGui\imgui_tables.cpp" />
     <ClCompile Include="LegitEngineCore\src\utils\ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="mandelbrot.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="circlesim.h" />
     <ClInclude Include="LegitEngineCore\src\Components\mat4.h" />
     <ClInclude Include="LegitEngineCore\src\Components\mat4_fwd.h" />
     <ClInclude Include="LegitEngineCore\src\core\application.h" />
@@ -189,6 +189,7 @@
     <ClInclude Include="LegitEngineCore\src\graphics\Buffers\vertexarray.h" />
     <ClInclude Include="LegitEngineCore\src\graphics\graphics_components.h" />
     <ClInclude Include="LegitEngineCore\src\graphics\Renderables\batchrenderer2d.h" />
+    <ClInclude Include="LegitEngineCore\src\graphics\Renderables\pixelrenderer2d.h" />
     <ClInclude Include="LegitEngineCore\src\graphics\Renderables\renderable2d.h" />
     <ClInclude Include="LegitEngineCore\src\graphics\Renderables\texture.h" />
     <ClInclude Include="LegitEngineCore\src\graphics\Shaders\shaders.h" />
@@ -211,10 +212,9 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="LegitEngineCore\src\graphics\Shaders\basic.shader" />
-    <None Include="LegitEngineCore\src\graphics\Shaders\fancy_shader.shader" />
-    <None Include="LegitEngineCore\src\graphics\Shaders\light.shader" />
-    <None Include="LegitEngineCore\src\graphics\Shaders\textured.shader" />
+    <None Include="res\Shaders\basic.shader" />
+    <None Include="res\Shaders\fancy_shader.shader" />
+    <None Include="res\Shaders\light.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -29,16 +29,15 @@ namespace legit_engine {
 
       // Basic shader setup.  Legit engine currently does not support multiple shader files for 
       // a single application
-      glUseProgram(m_Shader->getRendererID());
+      m_Shader->Enable();
       mat4 ortho = mat4::orthographic(0, screenWidth, 0, screenHeight, -1.0f, 1.0f);
       m_Shader->setUniformMat4("pr_matrix", ortho);
       auto loc = glGetUniformLocation(m_Shader->getRendererID(), "textures");
       int textures[MAX_TEXTURES];
+      // allocating texture I.D. array
       for (int i = 0; i < MAX_TEXTURES; i++)
          textures[i] = i;
       glUniform1iv(loc, MAX_TEXTURES, textures);
-
-      m_MousePosition = { 0, 0 };
    }
 
    Application::~Application()
@@ -48,25 +47,29 @@ namespace legit_engine {
       delete m_Shader;
       delete m_Window;
 
-      // report memory leaks to vs debugger window
+      // report memory leaks to visual studio debugger window
       _CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG);
       _CrtDumpMemoryLeaks();
    }
 
    void Application::Start()
    {
+      std::cout << "[Legit Engine]: Starting" << std::endl;
+
+      // ImGui setup procedure
       bootGui(m_Window);
 
       m_Window->getWindowSize(m_ScreenWidth, m_ScreenHeight);
       m_Window->getMousePositionNormalized(m_MousePosition.x, m_MousePosition.y);
 
       ApplicationThread();
-
+      std::cout << "[Legit Engine]: Stopping." << std::endl;
       m_DebugAPI->pollPerformance();
    }
 
    void Application::ApplicationThread()
    {
+
       m_Active = true;
       if (!OnUserCreate())
       {
@@ -78,6 +81,8 @@ namespace legit_engine {
 
       while (m_Active)
       {
+         float xscroll, yscroll;
+
          m_DebugAPI->GLCheckErrors();
          m_DebugAPI->update();
 
@@ -135,6 +140,8 @@ namespace legit_engine {
          m_Window->getMousePosition(m_MousePosition.x, m_MousePosition.y);
          m_Window->getWindowSize(m_ScreenWidth, m_ScreenHeight);
          m_Window->Clear();
+         
+         getScrollWheel();
 
          m_Renderer->begin();
 
@@ -146,6 +153,7 @@ namespace legit_engine {
          if (!OnUserUpdate())
          {
             m_Active = false;
+            std::cout << "[Legit Engine]: User ended application." << std::endl;
          }
          m_Renderer->end();
          m_Renderer->flush();
@@ -161,6 +169,7 @@ namespace legit_engine {
       }
 
    }
+
 
    void Application::getScreenSize(int& width, int& height)
    {
@@ -192,11 +201,20 @@ namespace legit_engine {
       return m_Window->getMousePositionNormalized();
    }
 
+   void Application::getScrollWheel()
+   {
+      float xOffset, yOffset;
+      m_Window->getScrollWheel(xOffset, yOffset);
+      m_MouseScroll.up =     (yOffset ==  1);
+      m_MouseScroll.down =   (yOffset == -1);
+      m_MouseScroll.right =  (xOffset ==  1);
+      m_MouseScroll.left =   (xOffset == -1);
+   }
+
    void Application::bootGui(legit_engine::graphics::Window* window)
    {
       IMGUI_CHECKVERSION();
       ImGui::CreateContext();
-      ImGuiIO& io = ImGui::GetIO(); (void)io;
       ImGui::StyleColorsDark();
       ImGui_ImplGlfw_InitForOpenGL(window->getWindowPointer(), true);
       ImGui_ImplOpenGL3_Init();

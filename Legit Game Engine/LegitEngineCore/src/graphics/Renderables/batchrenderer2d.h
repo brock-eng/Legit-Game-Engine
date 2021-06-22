@@ -7,6 +7,7 @@
 #include "../../game_assets/entity.h"
 
 #include "../Buffers/vertexarray.h"
+#include "../Legit Game Engine/Legit Game Engine/LegitEngineCore/src/graphics/Shaders/shaders.h"
 
 #include "../../Components/Sys.h"
 
@@ -55,6 +56,8 @@ namespace legit_engine {
          void submitEntity(const Entity* entity);
          void submitEntity(float x, float y, float width, float height, float rotation, Texture* texture, const std::vector<components::Vec2> uv = Renderable2D::getDefaultUV());
          void submitLine(float x0, float y0, float x1, float y1, unsigned int color, float thickness);
+         void paintPixel(int x, int y, components::Vec4 color, GLint shaderProgram, const char* uniformFloat);
+
 
          void end();
          void flush() override;

@@ -421,6 +421,7 @@ namespace legit_engine {
          m_IndexCount += 6;
       }
       
+
       void BatchRenderer2D::end()
       {
          glUnmapBuffer(GL_ARRAY_BUFFER);

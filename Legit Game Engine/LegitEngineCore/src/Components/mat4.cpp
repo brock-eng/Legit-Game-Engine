@@ -16,6 +16,14 @@ namespace legit_engine {
             elements[i] = 0.0f;
       }
 
+      mat4::mat4(float (&floatArray)[SIZE*SIZE])
+      {
+         for (int i = 0; i < SIZE * SIZE; i++)
+         {
+            elements[i] = floatArray[i];
+         }
+      }
+
       // initializes a diagonal matrix of input number
       mat4::mat4(float diagonal)
       {

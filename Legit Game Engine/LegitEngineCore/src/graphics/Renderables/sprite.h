@@ -11,6 +11,9 @@ namespace legit_engine {
       private:
          shaders::Shader* m_Shader;
       public:
+
+         Sprite();
+
          Sprite(float x, float y, float width, float height, const components::Vec4& color, shaders::Shader* shader);
 
          Sprite(float x, float y, float width, float height, renderables::Texture* texture, shaders::Shader* shader);

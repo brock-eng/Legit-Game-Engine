@@ -22,6 +22,7 @@
 #include "src/graphics/window.h"
 
 #include "src/graphics/Renderables/batchrenderer2d.h"
+#include "src/graphics/Renderables/pixelrenderer2d.h"
 
 #include "src/graphics/Shaders/shaders.h"
 
@@ -29,7 +30,7 @@
 
 #include "src/graphics/Renderables/texture.h"
 
-#if 0 // there's probably no reason to ever actually include these in an external project
+#if 0 // only for some internal testing
 #include "Buffers/buffer.h"
 #include "Buffers/vertexarray.h"
 #include "Buffers/indexbuffer.h

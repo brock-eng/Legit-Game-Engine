@@ -59,6 +59,14 @@ namespace legit_engine
          return *this;
       }
 
+      Vec2& Vec2::divide(const float f)
+      {
+         x /= f;
+         y /= f;
+         return *this;
+      }
+
+
       std::ostream& operator<<(std::ostream& stream, const Vec2& v2)
       {
          stream << "Vec2: <" << v2.x << ", " << v2.y << ">";
@@ -87,9 +95,16 @@ namespace legit_engine
          return v1.multiply(f);
       }
 
+
       Vec2& operator/(Vec2 v1, const Vec2& v2)
       {
          return v1.divide(v2);
+      }
+
+      Vec2& operator/(Vec2 v1, const float& f)
+      {
+
+         return v1.divide(f);
       }
 
       bool Vec2::operator==(const Vec2& v2)

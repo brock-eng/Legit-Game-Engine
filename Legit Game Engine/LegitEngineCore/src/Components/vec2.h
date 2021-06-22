@@ -22,6 +22,7 @@ namespace legit_engine
          Vec2& multiply(const Vec2& v2);
          Vec2& multiply(const float f);
          Vec2& divide(const Vec2& v2);
+         Vec2& divide(const float f);
 
          // math operators
          friend Vec2& operator+(Vec2 v1, const Vec2& v2);
@@ -29,6 +30,7 @@ namespace legit_engine
          friend Vec2& operator*(Vec2 v1, const Vec2& v2);
          friend Vec2& operator*(Vec2 v1, const float& f);
          friend Vec2& operator/(Vec2 v1, const Vec2& v2);
+         friend Vec2& operator/(Vec2 v1, const float& f);
 
          // compound operators
          Vec2& operator+=(const Vec2& v2);
