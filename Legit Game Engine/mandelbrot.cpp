@@ -2,8 +2,7 @@
 
 #include <math.h>
 
-#include "LegitEngineCore/legit_engine.h"
-#include "LegitEngineCore/src/Components/vec2.h"
+#include "../Legit Game Engine/LegitEngineCore/legit_engine.h"
 
 using namespace legit_engine;
 using namespace renderables;
@@ -21,11 +20,12 @@ public:
 
    // simulation constants
    Sprite canvas;
-   float scale = 1.0f;
-   float mZoom = 1.0f;
+   float scale;
+   float mZoom;
    float mRatio;
    Vec2 mousePan, offset, prevOffset = { 0.0f, 0.0f };
    int numIterations = 100;
+   float mousePanFactor = 1.2f;
 
 
    // returns the world coordinates of a given screen coordinate input
@@ -54,6 +54,11 @@ public:
       // the screen aspect ratio
       mRatio = m_ScreenWidth / m_ScreenHeight;
 
+      // setting simulation defaults
+      scale = 0.38;
+      offset.x = 450;
+      offset.y = -25;
+
       return true;
    }
 
@@ -69,7 +74,7 @@ public:
          // start mouse panning
          if (m_Mouse[BUTTON_1].bPressed)
          {
-            mousePan = { (m_MousePosition.x - prevOffset.x * scale), (m_MousePosition.y - prevOffset.y * scale) };
+            mousePan = { (m_MousePosition.x - prevOffset.x * scale), (m_MousePosition.y - prevOffset.y * scale) } ;
          }
          // update offset while dragging
          if (m_Mouse[BUTTON_1].bHeld)
@@ -82,23 +87,27 @@ public:
             prevOffset = offset;
          }
          // zoom in or out focused on the mouse location
-         if (m_MouseScroll.up || m_MouseScroll.down)
+         if (m_MouseScroll.up || m_MouseScroll.down || m_Keys[KEY_W].bHeld || m_Keys[KEY_S].bHeld)
          {
             float mouseXBefore = m_MousePosition.x;
             float mouseYBefore = m_MousePosition.y;
+
             ScreenToWorld(mouseXBefore, mouseYBefore);
+
             // zoom in
-            if (m_MouseScroll.up)
+            if (m_MouseScroll.up || m_Keys[KEY_W].bHeld)
             {
-               scale *= 1.1f;
+               scale *= 1.02f;
             }
             // zoom out
-            else if (m_MouseScroll.down)
+            else if (m_MouseScroll.down || m_Keys[KEY_S].bHeld)
             {
-               scale *= 0.9f;
+               scale *= 0.98f;
             }
+
             float mouseXAfter = m_MousePosition.x;
             float mouseYAfter = m_MousePosition.y;
+
             ScreenToWorld(mouseXAfter, mouseYAfter);
 
             offset.x -= (mouseXBefore - mouseXAfter);
@@ -109,9 +118,10 @@ public:
          // reset view
          if (m_Keys[KEY_R].bPressed)
          {
-            offset = { 0.0f , 0.0f };
-            prevOffset = { 0.0f, 0.0f };
-            scale = 1.0f;
+            scale = 0.38;
+            offset.x = 450;
+            offset.y = -25;
+            prevOffset = offset;
          }
 
          // toggle fullscreen
@@ -126,10 +136,10 @@ public:
 
       // creating our gpu transformation mat4
       float mvp[16] = {
-           -1.0f / (scale * mRatio), 0.0f, 0.0f, 0.0f,
+            1.0f / (scale), 0.0f, 0.0f, 0.0f,
             0.0f, 1.0f / (scale * mRatio), 0.0f, 0.0f,
             0.0f, 0.0f, 1.0f, 0.0f,
-            offset.x / m_ScreenWidth, -offset.y / m_ScreenHeight, 0.0f, 1.0f};
+            -offset.x * mRatio * mousePanFactor / m_ScreenWidth, -offset.y * mousePanFactor / m_ScreenHeight, 0.0f, 1.0f};
 
       // converting from an array of floats to a mat4
       mat4 mvpMatrix(mvp);
@@ -149,6 +159,8 @@ public:
       // rendering the in-simulation menu
       Menu();
 
+      // setting a minimum number of iterations
+      // bad things happen if we set it to zero 
       if (numIterations < 5 || numIterations == NULL)
       {
          numIterations = 5;
@@ -184,7 +196,7 @@ public:
 int main()
 {
    const char* title = "Mandelbrot Viewer";
-   unsigned int screenWidth = 1000, screenHeight = 600;
+   unsigned int screenWidth = 1200, screenHeight = 800;
    Fractal mandelbrotSet(title, screenWidth, screenHeight);
 
    mandelbrotSet.Start();

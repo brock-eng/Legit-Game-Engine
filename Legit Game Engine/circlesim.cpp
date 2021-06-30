@@ -1,11 +1,16 @@
-#pragma once
-
 #include <chrono>
 #include <math.h>
 
 #include "LegitEngineCore/legit_engine.h"
 #include "LegitEngineCore/src/Components/vec2.h"
 
+#ifndef maximum
+#define maximum(a,b)            (((a) > (b)) ? (a) : (b))
+#endif
+
+#ifndef mininmum
+#define minimum(a,b)            (((a) < (b)) ? (a) : (b))
+#endif
 
 using namespace legit_engine;
 using namespace renderables;
@@ -70,13 +75,12 @@ protected:
    sLineSegment* selectedLine = nullptr;
 
    // containers for our simulation data
-   vector <ball*> theBalls;         
-   vector <collision> collisionLog; 
+   vector <ball*> theBalls;
+   vector <collision> collisionLog;
    vector <sLineSegment*> theLines;
    vector <ball*> fakeBalls;
 
-
-   // some class scope variables used throughout the simulation
+   // assorted simulation control variables
    std::chrono::system_clock::time_point prevTime = chrono::system_clock::now();
    std::chrono::system_clock::time_point currTime = chrono::system_clock::now();
    float elapsedTime;
@@ -85,12 +89,15 @@ protected:
    bool bSelectedLineStart = false;
    float gravity;
    int numSimulationUpdates = 4;
-   float lineRadius = 50.f;
+   float lineRadius = 25.f;
    bool renderControlInfo = false;
    bool renderAbout = false;
+   bool dynamicLighting = false;
+   bool exitApplication;
 
    // game textures
-   Texture ballSprite = Texture("res/cirlce.png");
+   Texture ballSprite = Texture("res/circle.png");
+   Texture ballLineSprite = Texture("res/circle_line.png");
 
 private:
    void AddBall(float x, float y, Texture* texture, float radius = defaultRadius)
@@ -110,16 +117,7 @@ private:
 
    void AddLine()
    {
-      theLines.push_back(new sLineSegment{ m_ScreenWidth / 4.0f, m_ScreenHeight / 4.0f, m_ScreenWidth / 2.0f, m_ScreenHeight / 2.0f, lineRadius });
-   }
-
-   void RemoveBall(int id)
-   {
-      theBalls.erase(theBalls.begin() + id);
-      for (int i = id + 1; i < theBalls.size() - 1; i++)
-      {
-         theBalls[i]->id = theBalls[i + 1]->id;
-      }
+      theLines.push_back(new sLineSegment{ m_ScreenWidth / 4.0f, m_ScreenHeight / 2.0f, 3.0f * m_ScreenWidth / 4.0f, m_ScreenHeight / 2.0f, lineRadius });
    }
 
    void AddRandomBalls(int numBalls, float minRadius, float maxRadius)
@@ -149,8 +147,8 @@ private:
                if (CircleCollisionDetect(currBall, targetBall))
                {
 
-                  float distance = sqrtf((currBall->x - targetBall->x) * (currBall->x - targetBall->x) + 
-                                         (currBall->y - targetBall->y) * (currBall->y - targetBall->y));
+                  float distance = sqrtf((currBall->x - targetBall->x) * (currBall->x - targetBall->x) +
+                     (currBall->y - targetBall->y) * (currBall->y - targetBall->y));
                   float overlap = distance - currBall->radius - targetBall->radius;
                   collisionLog.emplace_back(currBall, targetBall);
 
@@ -179,13 +177,13 @@ private:
 
             // This effectively calculates the 'shadow' casted on the line by the ball
             // finding the closest point to the ball that is on the line
-            float t = max(0, min(fEdgeLength, (fLineX1 * fLineX2 + fLineY1 * fLineY2))) / fEdgeLength;
+            float t = maximum(0, minimum(fEdgeLength, (fLineX1 * fLineX2 + fLineY1 * fLineY2))) / fEdgeLength;
             float fClosestPointX = line->sx + t * fLineX1;
             float fClosestPointY = line->sy + t * fLineY1;
 
             // distance from ball to closest point on the line
-            float fDistance = sqrtf((currBall->x - fClosestPointX) * (currBall->x - fClosestPointX) + 
-                                    (currBall->y - fClosestPointY) * (currBall->y - fClosestPointY));
+            float fDistance = sqrtf((currBall->x - fClosestPointX) * (currBall->x - fClosestPointX) +
+               (currBall->y - fClosestPointY) * (currBall->y - fClosestPointY));
 
 
             // checking for overlap
@@ -196,8 +194,8 @@ private:
                temp->mass = currBall->mass * 0.8f;
                temp->x = fClosestPointX;
                temp->y = fClosestPointY;
-               temp->vx = -currBall->vx;	
-               temp->vy = -currBall->vy;	
+               temp->vx = -currBall->vx;
+               temp->vy = -currBall->vy;
 
                fakeBalls.push_back(temp);
 
@@ -217,8 +215,8 @@ private:
          {
             ball* b1 = collision.b1;
             ball* b2 = collision.b2;
-            float fDistance = sqrtf((collision.b1->x - collision.b2->x) * (collision.b1->x - collision.b2->x) + 
-                                    (collision.b1->y - collision.b2->y) * (collision.b1->y - collision.b2->y));
+            float fDistance = sqrtf((collision.b1->x - collision.b2->x) * (collision.b1->x - collision.b2->x) +
+               (collision.b1->y - collision.b2->y) * (collision.b1->y - collision.b2->y));
             float nx = (b2->x - b1->x) / fDistance;
             float ny = (b2->y - b1->y) / fDistance;
 
@@ -278,103 +276,13 @@ private:
       return ((m_MousePosition.x - x1) * (m_MousePosition.x - x1) + (m_MousePosition.y - y1) * (m_MousePosition.y - y1) < (radius * radius));
    }
 
-public:
-   bool OnUserCreate() override
-   {
-
-      // allocating and creating our game objects
-      theBalls.reserve(startingNumBalls);
-      collisionLog.reserve(startingNumBalls);
-      AddRandomBalls(startingNumBalls, 50, 100);
-      AddRandomBalls(1, 100, 100);
-      AddBall(m_ScreenWidth, m_ScreenHeight, &ballSprite, 100);
-      
-      theLines.push_back(new sLineSegment{ 100, 100, 600, 600, lineRadius });
-
-      // background color
-      glClearColor(0, 0, 0, 0);
-
-      return true;
-   }
-
-   bool OnUserUpdate() override
-   {
-      // handling clock and time information
-      currTime = chrono::system_clock::now();
-      chrono::duration<float> elapsedTimeCalc = currTime - prevTime;
-      elapsedTime = elapsedTimeCalc.count();
-      prevTime = currTime;
-      elapsedTime /= (float)numSimulationUpdates;
-
-      // setting shader orthographic matrix to screen dimensions
-      mat4 ortho = mat4::orthographic(0, m_ScreenWidth, 0, m_ScreenHeight, -1.0f, 1.0f);
-      m_Shader->setUniformMat4("pr_matrix", ortho);
-
-      // get all user input
-      HandleInput();
-
-      // main simulation body for physics and collision resolutions
-      for (int i = 0; i < numSimulationUpdates; i++)
-      {
-         PhysicsSim(elapsedTime);
-         CollisionSim(collisionLog);
-         collisionLog.clear();
-         collisionLog.reserve(startingNumBalls);
-      }
-
-      // resolving final ball positions after sims
-      for (ball* i : theBalls)
-      {
-         m_Renderer->submitEntity(i->x, i->y, i->radius, i->radius, 0.0f, &ballSprite);
-      }
-
-      // renders a 'pool cue' line for launching a ball
-      if (renderline && selectedBall)
-         m_Renderer->submitLine(m_MousePosition.x, m_MousePosition.y, selectedBall->x, selectedBall->y, 10101010, 5);
-
-      // render lines
-      for (auto& line : theLines)
-      {
-         float lineThickness = 5.0f;
-         float nx = -(line->ey - line->sy);
-         float ny = (line->ex - line->sx);
-         float d = sqrt(nx * nx + ny * ny);
-
-         nx = nx / d * (line->radius - lineThickness/2.0f);
-         ny = ny / d * (line->radius - lineThickness/2.0f);
-
-         m_Renderer->submitLine(line->sx, line->sy, line->ex, line->ey, 10101010, line->radius);
-         m_Renderer->submitEntity(line->sx, line->sy, line->radius, line->radius, 0.0f, &ballSprite);
-         m_Renderer->submitEntity(line->ex, line->ey, line->radius, line->radius, 0.0f, &ballSprite);
-
-      }
-
-      // clearing the 'fake' balls vector (for ball against line collision)
-      for (auto& fakeBall : fakeBalls)
-      {
-         delete fakeBall;
-      }
-      fakeBalls.clear();
-
-      // setting the light position, this is attached to the position of the first ball in theBalls vector
-      if (theBalls.size() > 0)
-         m_Shader->setUniform2f("light_pos", Vec2(2.0f * theBalls[0]->x / m_ScreenWidth - 1.0f, 2.0f * theBalls[0]->y / m_ScreenHeight - 1.0f));
-      m_Shader->setUniform1f("light_level", intensity);
-
-      // display application guis
-      DisplayMenus();
-
-      return true;
-   }
-
-   
    // getting user input and getting the current selected ball if it exists
-   void HandleInput()
+   bool HandleInput()
    {
-      if (m_Keys[KEY_1].bPressed) AddRandomBalls(10, 5, 20);      // add small balls
-      if (m_Keys[KEY_2].bPressed) AddRandomBalls(10, 20, 40);     // add medium balls
-      if (m_Keys[KEY_3].bPressed) AddRandomBalls(10, 50, 150);    // add large balls
-      if (m_Keys[KEY_4].bPressed) AddRandomBalls(1, 300, 500);    // add one massive ball
+      if (m_Keys[KEY_1].bPressed) AddRandomBalls(10, 5, 10);      // add small balls
+      if (m_Keys[KEY_2].bPressed) AddRandomBalls(10, 15, 30);     // add medium balls
+      if (m_Keys[KEY_3].bPressed) AddRandomBalls(10, 40, 80);     // add large balls
+      if (m_Keys[KEY_4].bPressed) AddRandomBalls(1, 100, 200);    // add one massive ball
       if (m_Keys[KEY_L].bPressed) AddLine();                      // add one line
       if (m_Keys[KEY_X].bPressed)                                 // clear all on screen lines
       {
@@ -384,7 +292,7 @@ public:
          }
          theLines.clear();
       }
-      if (m_Keys[KEY_C].bPressed)                                 // clear all on screen balls
+      if (m_Keys[KEY_C].bPressed) // clear all on screen balls
       {
          for (int i = 1; i < theBalls.size(); i++)
          {
@@ -393,6 +301,20 @@ public:
          theBalls.clear();
       }
 
+      if (m_Keys[KEY_R].bPressed) // reset and create the 'waterfall' program
+      {
+         for (int i = 0; i < theLines.size(); i++)
+         {
+            delete theLines[i];
+         }
+         theLines.clear();
+         for (int i = 1; i < theBalls.size(); i++)
+         {
+            delete theBalls[i];
+         }
+         theBalls.clear();
+         WaterfallProgram();
+      }
       // detecting which circle (if any) has been selected and setting our selected
       // ball pointer to said ball
       for (auto& i : theBalls)
@@ -425,6 +347,7 @@ public:
             }
          }
       }
+
       // if we have a selected ball, we operate on it according to which
       // mouse button is pressed
       if (selectedBall != nullptr)
@@ -471,6 +394,7 @@ public:
             }
          }
       }
+
       // setting nullptrs when button is released
       if (m_Mouse[BUTTON_1].bReleased)
       {
@@ -480,52 +404,49 @@ public:
 
       // toggle fullscreen
       if (m_Keys[KEY_F2].bPressed)
-         setFullScreen();
+         SetFullScreen();
 
-      // toggle the display control information gui
-      if (m_Keys[KEY_F3].bPressed)
-         renderControlInfo = !renderControlInfo;
+      // exit application
+      if (m_Keys[KEY_ESCAPE].bPressed)
+         return false;
 
-      // toggle the control information gui
-      if (m_Keys[KEY_F4].bPressed)
-         renderAbout = !renderAbout;
+      return true;
    }
 
    void DisplayMenus()
    {
+      // toggle the display control information gui
+      if (m_Keys[KEY_I].bPressed)
+         renderControlInfo = !renderControlInfo;
+
+      // toggle the control information gui
+      if (m_Keys[KEY_A].bPressed)
+         renderAbout = !renderAbout;
 
       // main menu
       int size = theBalls.size();
-      std::pair<float, float> debugInfo = m_DebugAPI->getMemoryUsage();
-      ImGui::Begin("Circle Simulation", 0, ImGuiWindowFlags_AlwaysAutoResize);
+      ImGui::Begin("Circle Collision Simulation", 0, ImGuiWindowFlags_AlwaysAutoResize);
       ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-      ImGui::Text("Press F3 for control information");
-      ImGui::Text("Press F4 for application info");
+      ImGui::Text("Press 'I' to show/hide control information");
+      ImGui::Text("Press 'A' to show/hide application info");
       ImGui::Text("Number of balls: %d", size);
-      ImGui::SliderFloat("Light Intensity", &intensity, 0, 2.0f);;
+      ImGui::Checkbox("Dynamic Lighting", &dynamicLighting);
+      if (dynamicLighting) { ImGui::SliderFloat("Light Intensity", &intensity, 0, 2.0f); }
       ImGui::SliderFloat("Gravity", &gravity, 0.0f, 20.0f);
-      ImGui::DragFloat("V_MEMORY%", &debugInfo.first);
-      ImGui::DragFloat("P_MEMORY%", &debugInfo.second);
-      ImGui::SetWindowFontScale(1.5f);
+      ImGui::SetWindowFontScale(1.25f);
       ImGui::End();
 
       // controls and button mappings
       if (renderControlInfo)
       {
          ImGui::Begin("Control Information", 0, ImGuiWindowFlags_AlwaysAutoResize);
-         ImGui::Text("1-2-3: Create circles of size small, medium, large");
+         ImGui::Text("1-2-3-4: Create circles of size small-medium-large-XL");
          ImGui::Text("  L  : Create new line object");
          ImGui::Text("  C  : Clear circles");
          ImGui::Text("  X  : Clear lines");
          ImGui::Text("Right click and hold to launch a circle");
-         ImGui::Text("Left click and hold to drag circles (includes lines)");
-         ImGui::Text("");
-         ImGui::Text("MouseX: %.3f  MouseY: %.3f", m_MousePosition.x, m_MousePosition.y);
-         if (selectedBall != nullptr)
-            ImGui::Text("Ball X: %.3f  Ball Y: %.3f", selectedBall->x, selectedBall->y);
-         else
-            ImGui::Text("Ball X: %.3f  Ball Y: %.3f", 0.0f, 0.0f);
-         ImGui::SetWindowFontScale(1.5f);
+         ImGui::Text("Left click and hold to drag circles (including enpoints for lines)");
+         ImGui::SetWindowFontScale(1.25f);
          ImGui::End();
       }
 
@@ -533,7 +454,7 @@ public:
       if (renderAbout)
       {
          ImGui::Begin("Application info", 0, ImGuiWindowFlags_AlwaysAutoResize);
-         ImGui::Text("Authored by Zach Brock - 6/19/2021");
+         ImGui::Text("Authored by Zach Brock - 3/19/2021");
          ImGui::Text("This is a sample application created using the");
          ImGui::Text("Legit Game Engine, an OpenGL graphics and game");
          ImGui::Text("programming API that handles all of the rendering.");
@@ -545,12 +466,132 @@ public:
          ImGui::End();
       }
    }
+
+   void WaterfallProgram() 
+   {
+      AddRandomBalls(300, 5, 10);
+
+      gravity = 2.0f;
+
+      theLines.push_back(new sLineSegment{ 0, 0, 0, m_ScreenHeight, lineRadius });
+      theLines.push_back(new sLineSegment{ m_ScreenWidth, 0, m_ScreenWidth, m_ScreenHeight, lineRadius });
+
+      theLines.push_back(new sLineSegment{ 0, 0.9f * m_ScreenHeight, 0.85f * m_ScreenWidth, 0.80f * m_ScreenHeight, lineRadius });
+      theLines.push_back(new sLineSegment{ m_ScreenWidth, 0.6f * m_ScreenHeight, 0.20f * m_ScreenWidth, 0.55f * m_ScreenHeight , lineRadius });
+      theLines.push_back(new sLineSegment{ 0, 0.4f * m_ScreenHeight, 0.85f * m_ScreenWidth, 0.30f * m_ScreenHeight, lineRadius });
+      theLines.push_back(new sLineSegment{ m_ScreenWidth, 0.15f * m_ScreenHeight, 0.20f * m_ScreenWidth, 0.05f * m_ScreenHeight , lineRadius });
+   }
+
+public:
+   bool OnUserCreate() override
+   {
+
+      // allocating and creating our game objects
+      theBalls.reserve(startingNumBalls);
+      collisionLog.reserve(startingNumBalls);
+      
+      // setting up a cool physics demo that gives off a waterfall type appearance
+      WaterfallProgram();
+
+      // shader default settings
+      mat4 ortho = mat4::orthographic(0, m_ScreenWidth, 0, m_ScreenHeight, -1.0f, 1.0f);
+      m_Shader->setUniformMat4("pr_matrix", ortho);
+      m_Shader->setUniform4f("colour", Vec4(0.0, 0.3, 0.8, 1.0));
+      m_Shader->setUniform1f("light_level", 1.0f);
+
+      // background color
+      glClearColor(0, 0, 0, 0);
+
+      return true;
+   }
+
+   // main game loop
+   bool OnUserUpdate() override
+   {
+      // update orthographic matrix in shader depending on screen size
+      mat4 ortho = mat4::orthographic(0, m_ScreenWidth, 0, m_ScreenHeight, -1.0f, 1.0f);
+      m_Shader->setUniformMat4("pr_matrix", ortho);
+
+      // handling clock and time information
+      currTime = chrono::system_clock::now();
+      chrono::duration<float> elapsedTimeCalc = currTime - prevTime;
+      elapsedTime = elapsedTimeCalc.count();
+      prevTime = currTime;
+      elapsedTime /= (float)numSimulationUpdates;
+
+      // get all user input (if ImGui is not active)
+      if (!ImGui::GetIO().WantCaptureMouse)
+         exitApplication = HandleInput();
+
+      // main simulation body for physics and collision resolutions
+      for (int i = 0; i < numSimulationUpdates; i++)
+      {
+         PhysicsSim(elapsedTime);
+         CollisionSim(collisionLog);
+         collisionLog.clear();
+         collisionLog.reserve(startingNumBalls);
+      }
+
+      // resolving final ball positions after sims
+      for (ball* i : theBalls)
+      {
+         m_Renderer->submitEntity(i->x, i->y, i->radius, i->radius, 0.0f, &ballSprite);
+      }
+
+      // renders a 'pool cue' line for launching a ball
+      if (renderline && selectedBall)
+         m_Renderer->submitLine(m_MousePosition.x, m_MousePosition.y, selectedBall->x, selectedBall->y, 10101010, 5);
+
+      // render lines
+      for (auto& line : theLines)
+      {
+         float lineThickness = 5.0f;
+         float nx = -(line->ey - line->sy);
+         float ny = (line->ex - line->sx);
+         float d = sqrt(nx * nx + ny * ny);
+
+         nx = nx / d * (line->radius - lineThickness / 2.0f);
+         ny = ny / d * (line->radius - lineThickness / 2.0f);
+
+         m_Renderer->submitLine(line->sx, line->sy, line->ex, line->ey, 10101010, line->radius);
+      }
+      for (auto& line : theLines)
+      {
+         m_Renderer->submitEntity(line->sx, line->sy, line->radius, line->radius, 0.0f, &ballLineSprite);
+         m_Renderer->submitEntity(line->ex, line->ey, line->radius, line->radius, 0.0f, &ballLineSprite);
+      }
+
+      // clearing the 'fake' balls vector (for ball against line collision)
+      for (auto& fakeBall : fakeBalls)
+      {
+         delete fakeBall;
+      }
+      fakeBalls.clear();
+
+      // setting the light position for dynamic lighting
+      // this is attached to the position of the first ball in theBalls vector
+      if (dynamicLighting)
+      {
+         m_Shader->setUniform1i("dynamic_lighting", 1);
+         if (theBalls.size() > 0)
+            m_Shader->setUniform2f("light_pos", Vec2(theBalls[0]->x / m_ScreenWidth, theBalls[0]->y / m_ScreenHeight));
+
+         m_Shader->setUniform1f("light_level", intensity);
+      }
+      else
+         m_Shader->setUniform1i("dynamic_lighting", 0);
+
+      // display application guis
+      DisplayMenus();
+
+      return exitApplication;
+   }
 };
 
 
 int main()
 {
-   int screenWidth = 2000, screenHeight = 1200;
+   int screenWidth = 1200, screenHeight = 800;
    double mouseX = 0, mouseY = 0;
    const char* appName = "Circle Physics Simulation";
 

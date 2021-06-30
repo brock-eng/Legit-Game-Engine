@@ -4,7 +4,6 @@
 #include <sstream>
 
 #include "mat4.h"
-#include "Sys.h"
 
 namespace legit_engine {
    namespace components {

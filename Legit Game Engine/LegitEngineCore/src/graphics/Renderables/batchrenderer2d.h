@@ -7,9 +7,8 @@
 #include "../../game_assets/entity.h"
 
 #include "../Buffers/vertexarray.h"
-#include "../Legit Game Engine/Legit Game Engine/LegitEngineCore/src/graphics/Shaders/shaders.h"
+#include "../Shaders/shaders.h"
 
-#include "../../Components/Sys.h"
 
 namespace legit_engine {
    namespace renderables {

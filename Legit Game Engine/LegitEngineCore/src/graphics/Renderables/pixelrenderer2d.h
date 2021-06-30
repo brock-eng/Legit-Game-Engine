@@ -1,13 +1,9 @@
 #pragma once
 
-
-#include <vector>
-
-
 #include "renderer2d.h"
 
 #include "../Buffers/vertexarray.h"
-#include "../../Components/Sys.h"
+#include "../../Components/mathlib.h"
 
 namespace legit_engine {
    namespace renderables {

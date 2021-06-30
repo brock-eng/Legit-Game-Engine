@@ -3,7 +3,7 @@
 #include <glew.h>
 #include <glfw3.h>
 
-#include "../Components/Sys.h"
+#include "../Components/mathlib.h"
 
 namespace legit_engine {
    namespace graphics {

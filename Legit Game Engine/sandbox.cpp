@@ -1,9 +1,6 @@
 #pragma once
 
-
-#include "../Legit Game Engine/LegitEngineCore/legit_engine.h"
-
-#include "circlesim.h"
+#include "LegitEngineCore/legit_engine.h"
 
 #define LOG(x) (std::cout << x << std::endl)
 
@@ -34,8 +31,8 @@ public:
    Texture texture2 = Texture("res/pepesprites.png");
    Texture texture3 = Texture("res/booba.jpg");
 
-   Entity player = Entity(400, 400, 200, 600, 45.0f, texture1);
-   Entity player2 = Entity(800, 400, 500, 600, 0.0f, texture2);
+   Entity player = Entity(400, 400, 200, 600, 45.0f, &texture1);
+   Entity player2 = Entity(800, 400, 500, 600, 0.0f, &texture2);
 
    bool OnUserCreate() override
    {
@@ -86,7 +83,7 @@ public:
       bool windowBool = false, click_effect;
       static float intensity = 0.5f;
 
-      components::Vec2 positions = getMousePositionNormalized();
+      components::Vec2 positions = GetMousePositionNormalized();
 
       int NUM_SPRITES = 20;
 
@@ -143,6 +140,12 @@ public:
       return true;
    }
 };
+
+int main()
+{
+   testApplication* game = new testApplication("Test", 1200, 1200);
+   game->Start();
+}
 
 
 

@@ -24,7 +24,7 @@ namespace legit_engine {
    {
       m_Window = new graphics::Window(name, screenWidth, screenHeight);
       m_Renderer = new renderables::BatchRenderer2D(screenWidth, screenHeight);
-      m_Shader = new shaders::Shader("res/textured.shader");
+      m_Shader = new shaders::Shader("res/Shaders/textured.shader");
       m_DebugAPI = new utils::DebugUtil();
 
       // Basic shader setup.  Legit engine currently does not support multiple shader files for 
@@ -57,7 +57,7 @@ namespace legit_engine {
       std::cout << "[Legit Engine]: Starting" << std::endl;
 
       // ImGui setup procedure
-      bootGui(m_Window);
+      BootImGui(m_Window);
 
       m_Window->getWindowSize(m_ScreenWidth, m_ScreenHeight);
       m_Window->getMousePositionNormalized(m_MousePosition.x, m_MousePosition.y);
@@ -141,7 +141,7 @@ namespace legit_engine {
          m_Window->getWindowSize(m_ScreenWidth, m_ScreenHeight);
          m_Window->Clear();
          
-         getScrollWheel();
+         GetScrollWheel();
 
          m_Renderer->begin();
 
@@ -171,37 +171,37 @@ namespace legit_engine {
    }
 
 
-   void Application::getScreenSize(int& width, int& height)
+   void Application::GetScreenSize(int& width, int& height)
    {
       m_Window->getWindowSize(width, height);
    }
 
-   components::Vec2 Application::getScreenSize()
+   components::Vec2 Application::GetScreenSize()
    {
       return m_Window->getWindowSize();
    }
 
-   void Application::getMousePosition(float& mouseX, float& mouseY)
+   void Application::GetMousePosition(float& mouseX, float& mouseY)
    {
       return m_Window->getMousePosition(mouseX, mouseY);
    }
 
-   components::Vec2 Application::getMousePosition()
+   components::Vec2 Application::GetMousePosition()
    {
       return m_Window->getMousePosition();
    }
 
-   void Application::getMousePositionNormalized(float& mouseX, float& mouseY)
+   void Application::GetMousePositionNormalized(float& mouseX, float& mouseY)
    {
       m_Window->getMousePositionNormalized(mouseX, mouseY);
    }
 
-   components::Vec2 Application::getMousePositionNormalized()
+   components::Vec2 Application::GetMousePositionNormalized()
    {
       return m_Window->getMousePositionNormalized();
    }
 
-   void Application::getScrollWheel()
+   void Application::GetScrollWheel()
    {
       float xOffset, yOffset;
       m_Window->getScrollWheel(xOffset, yOffset);
@@ -211,7 +211,27 @@ namespace legit_engine {
       m_MouseScroll.left =   (xOffset == -1);
    }
 
-   void Application::bootGui(legit_engine::graphics::Window* window)
+   void Application::Render(Entity* entityPointer)
+   {
+      m_Renderer->submitEntity(entityPointer);
+   }
+
+   void Application::Render(Sprite* spritePointer)
+   {
+      m_Renderer->submitSprite(spritePointer);
+   }
+
+   void Application::RenderQuad(float xpos, float ypos, float width, float height, float rotation, Texture* texture, const std::vector<components::Vec2> uv)
+   {
+      m_Renderer->submitEntity(xpos, ypos, width, height, rotation, texture, uv);
+   }
+
+   void Application::RenderLine(float x0, float y0, float x1, float y1, unsigned int color, float thickness)
+   {
+      m_Renderer->submitLine(x0, y0, x1, y1, color, thickness);
+   }
+
+   void Application::BootImGui(legit_engine::graphics::Window* window)
    {
       IMGUI_CHECKVERSION();
       ImGui::CreateContext();

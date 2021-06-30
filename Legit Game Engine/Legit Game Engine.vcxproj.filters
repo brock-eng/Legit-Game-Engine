@@ -36,9 +36,6 @@
     <ClCompile Include="LegitEngineCore\src\core\application.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LegitEngineCore\src\defunct\matrix.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="LegitEngineCore\src\game_assets\entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -90,13 +87,13 @@
     <ClCompile Include="LegitEngineCore\src\utils\debug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="mandelbrot.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="LegitEngineCore\src\graphics\Shaders\shaders.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LegitEngineCore\src\graphics\Renderables\pixelrenderer2d.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sandbox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -105,9 +102,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LegitEngineCore\src\Components\mat4_fwd.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LegitEngineCore\src\Components\Sys.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LegitEngineCore\src\Components\vec2.h">
@@ -120,9 +114,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LegitEngineCore\src\core\application.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LegitEngineCore\src\defunct\matrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LegitEngineCore\src\game_assets\entity.h">
@@ -198,6 +189,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LegitEngineCore\src\graphics\Renderables\pixelrenderer2d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LegitEngineCore\src\Components\mathlib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

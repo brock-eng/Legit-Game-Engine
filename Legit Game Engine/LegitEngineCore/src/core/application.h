@@ -6,17 +6,12 @@
 #include <iostream>
 #include <stdio.h>
 
-#include "../Components/Sys.h"
+#include "../Components/mathlib.h"
 #include "../utils/debug.h"
-
 
 #include "../utils/ImGui/imgui.h"
 #include "../utils/ImGui/imgui_impl_glfw.h"
 #include "../utils/ImGui/imgui_impl_opengl3.h"
-
-#if 0 // for debugging
-#define INCLUDE_ALL_GRAPHICS_COMPONENTS
-#endif
 
 #include "../graphics/graphics_components.h"
 
@@ -37,13 +32,13 @@ namespace legit_engine {
      
       bool m_Active;
 
-      bool m_KeysNewState[MAX_KEYS] = { 0 };
-      bool m_KeysOldState[MAX_KEYS] = { 0 };
+      bool m_KeysNewState[MAX_KEYS]     = { 0 };
+      bool m_KeysOldState[MAX_KEYS]     = { 0 };
       bool m_MouseOldState[MAX_BUTTONS] = { 0 };
       bool m_MouseNewState[MAX_BUTTONS] = { 0 };
 
    public:
-      // This is main keystate container.   
+      // Main key state container.   
       // m_Keys and m_Mouse can be probed for their current state
       // by using m_Keys[EL_KEY]
       // Refer to input.h for the complete key list
@@ -61,6 +56,7 @@ namespace legit_engine {
          float y;
       } m_MousePosition;
 
+      // Mouse scroll info container
       struct scrollState
       {
          bool up;
@@ -81,23 +77,26 @@ namespace legit_engine {
 
       void Start();
 
-
    private:
       void ApplicationThread();
 
    public:
-      void getScreenSize(int& width, int& height);
-      components::Vec2 getScreenSize();
-      void getMousePosition(float& mouseX, float& mouseY);
-      components::Vec2 getMousePosition();
-      void getMousePositionNormalized(float& mouseX, float& mouseY);
-      components::Vec2 getMousePositionNormalized();
-      inline const void setFullScreen() const { m_Window->setFullscreen(); }
-      void getScrollWheel();
+      void GetScreenSize(int& width, int& height);
+      components::Vec2 GetScreenSize();
+      void GetMousePosition(float& mouseX, float& mouseY);
+      components::Vec2 GetMousePosition();
+      void GetMousePositionNormalized(float& mouseX, float& mouseY);
+      components::Vec2 GetMousePositionNormalized();
+      inline const void SetFullScreen() const { m_Window->setFullscreen(); }
+      void GetScrollWheel();
 
+      void Render(Entity* entityPointer);
+      void Render(renderables::Sprite* spritePointer);
+      void RenderQuad(float xpos, float ypos, float width, float height, float rotation, renderables::Texture* texture = nullptr, const std::vector<components::Vec2> uv = renderables::Renderable2D::getDefaultUV());
+      void RenderLine(float x0, float y0, float x1, float y1, unsigned int color, float thickness);
 
    private:
-      void bootGui(legit_engine::graphics::Window* window);
+      void BootImGui(legit_engine::graphics::Window* window);
       };
 
 }

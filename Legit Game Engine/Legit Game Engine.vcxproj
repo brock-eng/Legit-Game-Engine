@@ -148,7 +148,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="LegitEngineCore\src\core\application.cpp" />
-    <ClCompile Include="LegitEngineCore\src\defunct\matrix.cpp" />
     <ClCompile Include="LegitEngineCore\src\Components\mat4.cpp" />
     <ClCompile Include="LegitEngineCore\src\Components\vec2.cpp" />
     <ClCompile Include="LegitEngineCore\src\Components\vec3.cpp" />
@@ -172,14 +171,13 @@
     <ClCompile Include="LegitEngineCore\src\utils\ImGui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="LegitEngineCore\src\utils\ImGui\imgui_tables.cpp" />
     <ClCompile Include="LegitEngineCore\src\utils\ImGui\imgui_widgets.cpp" />
-    <ClCompile Include="mandelbrot.cpp" />
+    <ClCompile Include="sandbox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LegitEngineCore\src\Components\mat4.h" />
     <ClInclude Include="LegitEngineCore\src\Components\mat4_fwd.h" />
+    <ClInclude Include="LegitEngineCore\src\Components\mathlib.h" />
     <ClInclude Include="LegitEngineCore\src\core\application.h" />
-    <ClInclude Include="LegitEngineCore\src\defunct\matrix.h" />
-    <ClInclude Include="LegitEngineCore\src\Components\Sys.h" />
     <ClInclude Include="LegitEngineCore\src\Components\vec2.h" />
     <ClInclude Include="LegitEngineCore\src\Components\vec3.h" />
     <ClInclude Include="LegitEngineCore\src\Components\vec4.h" />

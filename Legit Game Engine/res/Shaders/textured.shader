@@ -21,12 +21,11 @@ out DATA
 void main()
 {
    vec4 calc_position = position *  pr_matrix * vw_matrix * ml_matrix;
-   gl_Position = calc_position;// *vw_matrix* ml_matrix;
-   vs_out.position = calc_position; // *pr_matrix;
+   gl_Position = calc_position;
+   vs_out.position = calc_position; 
    vs_out.texCoords = texCoords;
    vs_out.color = color;
    vs_out.textureID = textureID;
-   //gl_Position = pos ;
 };
 
 /* --------------------------------------------------------------- */
@@ -48,20 +47,33 @@ in DATA
 uniform vec4 colour;
 uniform vec2 light_pos = { 0.0f, 0.0f };
 uniform float light_level = 1.0f;
+uniform int dynamic_lighting = 0;
 uniform sampler2D textures[32];
-uniform sampler2D textureTest;
 
 void main()
 {
    float intensity = 1.0 / length(fs_in.position.xy - light_pos);
    int textureCurr = int(fs_in.textureID);
    float noTexture = 0.0f;
-   if (fs_in.textureID == noTexture)
-      color = fs_in.color; // *intensity* light_level;
+   if (dynamic_lighting == 1)
+   {
+      if (fs_in.textureID == noTexture)
+         color = fs_in.color * intensity * light_level;
+      else
+      {
+         color = texture(textures[textureCurr], fs_in.texCoords) * intensity * light_level;
+         if (color == 0.0f) discard;
+      }
+   }
    else
    {
-      color = texture(textures[textureCurr], fs_in.texCoords) * intensity * light_level;
-      if (color == 0.0f) discard;
+      if (fs_in.textureID == noTexture)
+         color = fs_in.color;
+      else
+      {
+         color = texture(textures[textureCurr], fs_in.texCoords);
+         if (color == 0.0f) discard;
+      }
    }
 };
 
