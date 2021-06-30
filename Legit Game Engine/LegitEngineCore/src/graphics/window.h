@@ -66,6 +66,8 @@ namespace legit_engine {
 
          void setFullscreen();
 
+         void renameWindow(const char* name);
+
          GLFWwindow* getWindowPointer();
 
          void printXYPos();

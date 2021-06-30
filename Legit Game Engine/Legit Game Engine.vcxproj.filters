@@ -93,7 +93,7 @@
     <ClCompile Include="LegitEngineCore\src\graphics\Renderables\pixelrenderer2d.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sandbox.cpp">
+    <ClCompile Include="circlesim.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -192,6 +192,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LegitEngineCore\src\Components\mathlib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LegitEngineCore\src\utils\general_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

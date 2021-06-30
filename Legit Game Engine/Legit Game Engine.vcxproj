@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="circlesim.cpp" />
     <ClCompile Include="LegitEngineCore\src\core\application.cpp" />
     <ClCompile Include="LegitEngineCore\src\Components\mat4.cpp" />
     <ClCompile Include="LegitEngineCore\src\Components\vec2.cpp" />
@@ -171,7 +172,6 @@
     <ClCompile Include="LegitEngineCore\src\utils\ImGui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="LegitEngineCore\src\utils\ImGui\imgui_tables.cpp" />
     <ClCompile Include="LegitEngineCore\src\utils\ImGui\imgui_widgets.cpp" />
-    <ClCompile Include="sandbox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LegitEngineCore\src\Components\mat4.h" />
@@ -196,6 +196,7 @@
     <ClInclude Include="LegitEngineCore\src\input\input.h" />
     <ClInclude Include="LegitEngineCore\legit_engine.h" />
     <ClInclude Include="LegitEngineCore\src\utils\debug.h" />
+    <ClInclude Include="LegitEngineCore\src\utils\general_utils.h" />
     <ClInclude Include="LegitEngineCore\src\utils\ImGui\imconfig.h" />
     <ClInclude Include="LegitEngineCore\src\utils\ImGui\imgui.h" />
     <ClInclude Include="LegitEngineCore\src\utils\ImGui\imgui_impl_glfw.h" />

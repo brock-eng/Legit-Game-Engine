@@ -136,6 +136,7 @@ namespace legit_engine {
       {
          m_ScreenWidth = width;
          m_ScreenHeight = height;
+         glfwSetWindowSize(m_Window, width, height);
       }
 
       void Window::getWindowSize(int& width, int& height)
@@ -207,6 +208,11 @@ namespace legit_engine {
             glfwSetWindowMonitor(m_Window, nullptr, m_WindowProperties.xPos, m_WindowProperties.yPos, m_WindowProperties.width, m_WindowProperties.height, mode->refreshRate);
          }
          m_DisplayMode = !m_DisplayMode;
+      }
+
+      void Window::renameWindow(const char* name)
+      {
+         glfwSetWindowTitle(m_Window, name);
       }
 
       GLFWwindow* Window::getWindowPointer()

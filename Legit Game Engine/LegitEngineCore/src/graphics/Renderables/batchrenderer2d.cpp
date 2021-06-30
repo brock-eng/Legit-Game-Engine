@@ -7,8 +7,7 @@ namespace legit_engine {
 
       using namespace components;
 
-      BatchRenderer2D::BatchRenderer2D(float screenWidth, float screenHeight)
-         : m_ScreenWidth(screenWidth), m_ScreenHeight(screenHeight)
+      BatchRenderer2D::BatchRenderer2D()
       {
          init();
       }
@@ -17,13 +16,6 @@ namespace legit_engine {
       {
          delete m_IBO;
          glDeleteBuffers(1, &m_VBO);
-      }
-
-      void BatchRenderer2D::UpdateScreenSize(float width, float height)
-
-      {
-         m_ScreenWidth = width;
-         m_ScreenHeight = height;
       }
 
       void BatchRenderer2D::init()
@@ -67,7 +59,6 @@ namespace legit_engine {
          s_QuadVertices[1] = {  0.5f, -0.5f, 0, 0 };
          s_QuadVertices[2] = {  0.5f,  0.5f, 0, 0 };
          s_QuadVertices[3] = { -0.5f,  0.5f, 0, 0 };
-
       }
 
       void BatchRenderer2D::begin()
@@ -203,7 +194,7 @@ namespace legit_engine {
 
          if (m_Buffer == nullptr)
          {
-            std::cout << "Error: Renderer2D -> m_Buffer was nullptr." << std::endl;
+            LOG("m_Buffer contained nullptr");
             return;
          }
 

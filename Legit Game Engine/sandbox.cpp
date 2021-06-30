@@ -11,7 +11,6 @@ float float_rand(float b, float e)
    return ((float)rand() / RAND_MAX) * (e - b) + b;
 }
 
-
 using namespace legit_engine;
 using namespace renderables;
 using namespace components;
@@ -19,9 +18,6 @@ using namespace components;
 class testApplication : public Application
 {
 public:
-   testApplication(const char* name, unsigned int screenWidth, unsigned int screenHeight)
-      : Application(name, screenWidth, screenHeight) {}
-
    ImVec4 clear_color = ImVec4(0, 0., 0.5, 0);
    std::vector<legit_engine::renderables::Sprite*> sprites;
 
@@ -87,7 +83,6 @@ public:
 
       int NUM_SPRITES = 20;
 
-
       for (Sprite* sprite : sprites)
       {
          m_Renderer->submitSprite(sprite);
@@ -132,10 +127,8 @@ public:
 
       m_Shader->setUniform2f("light_pos", Vec2(2.0f * positions.x / m_ScreenWidth - 1.0f, 2.0f * positions.y / m_ScreenHeight - 1.0f));
 
-
       mat4 ortho = mat4::orthographic(0, m_ScreenWidth, 0, m_ScreenHeight, -1.0f, 1.0f);
       m_Shader->setUniformMat4("pr_matrix", ortho);
-
 
       return true;
    }
@@ -143,8 +136,9 @@ public:
 
 int main()
 {
-   testApplication* game = new testApplication("Test", 1200, 1200);
-   game->Start();
+   testApplication game;
+   game.Construct("Test", 1200, 1200);
+   game.Start();
 }
 
 

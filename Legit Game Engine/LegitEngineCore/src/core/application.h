@@ -6,6 +6,8 @@
 #include <iostream>
 #include <stdio.h>
 
+#include "../utils/general_utils.h"
+
 #include "../Components/mathlib.h"
 #include "../utils/debug.h"
 
@@ -31,6 +33,7 @@ namespace legit_engine {
       utils::DebugUtil* m_DebugAPI;
      
       bool m_Active;
+      bool m_Constructed = false;
 
       bool m_KeysNewState[MAX_KEYS]     = { 0 };
       bool m_KeysOldState[MAX_KEYS]     = { 0 };
@@ -49,7 +52,7 @@ namespace legit_engine {
          bool bHeld;
       } m_Keys[MAX_KEYS], m_Mouse[MAX_BUTTONS];
 
-      // This is intended to be probed for the pointers x and y coords
+      // This is intended to be probed for the pointers x and y coordinates
       struct mouseCoords
       {
          float x;
@@ -69,12 +72,13 @@ namespace legit_engine {
 
 
    public:
-      Application(const char* name, unsigned int screenWidth, unsigned int screenHeight);
+      Application();//const char* name, unsigned int screenWidth, unsigned int screenHeight);
       ~Application();
 
       virtual bool OnUserCreate() = 0;
       virtual bool OnUserUpdate() = 0;
 
+      void Construct(const char* name, unsigned int screenWidth, unsigned int screenHeight);
       void Start();
 
    private:

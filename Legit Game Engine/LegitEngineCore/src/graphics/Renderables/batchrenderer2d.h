@@ -9,6 +9,8 @@
 #include "../Buffers/vertexarray.h"
 #include "../Shaders/shaders.h"
 
+#include "../../utils/general_utils.h"
+
 
 namespace legit_engine {
    namespace renderables {
@@ -45,9 +47,9 @@ namespace legit_engine {
 
 
       public:
-         BatchRenderer2D(float screenWidth, float screenHeight);
+         BatchRenderer2D();
          ~BatchRenderer2D();
-         void UpdateScreenSize(float screenWidth, float screenHeight);
+
          void begin();
 
          void submit(const Renderable2D* renderable) override;

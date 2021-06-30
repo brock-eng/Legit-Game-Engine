@@ -20,24 +20,13 @@ namespace legit_engine {
    using namespace buffers;
    using namespace renderables;
 
-   Application::Application(const char* name, unsigned int screenWidth, unsigned int screenHeight)
+
+   Application::Application()//const char* name, unsigned int screenWidth, unsigned int screenHeight)
    {
-      m_Window = new graphics::Window(name, screenWidth, screenHeight);
-      m_Renderer = new renderables::BatchRenderer2D(screenWidth, screenHeight);
+      m_Window = new graphics::Window("null", 500, 500);
+      m_Renderer = new renderables::BatchRenderer2D();
       m_Shader = new shaders::Shader("res/Shaders/textured.shader");
       m_DebugAPI = new utils::DebugUtil();
-
-      // Basic shader setup.  Legit engine currently does not support multiple shader files for 
-      // a single application
-      m_Shader->Enable();
-      mat4 ortho = mat4::orthographic(0, screenWidth, 0, screenHeight, -1.0f, 1.0f);
-      m_Shader->setUniformMat4("pr_matrix", ortho);
-      auto loc = glGetUniformLocation(m_Shader->getRendererID(), "textures");
-      int textures[MAX_TEXTURES];
-      // allocating texture I.D. array
-      for (int i = 0; i < MAX_TEXTURES; i++)
-         textures[i] = i;
-      glUniform1iv(loc, MAX_TEXTURES, textures);
    }
 
    Application::~Application()
@@ -52,9 +41,32 @@ namespace legit_engine {
       _CrtDumpMemoryLeaks();
    }
 
+   void Application::Construct(const char* name, unsigned int screenWidth, unsigned int screenHeight)
+   {
+      m_Window->setWindowSize(screenWidth, screenHeight);
+      m_Window->renameWindow(name);
+
+      // Basic shader setup.  Legit engine currently does not support multiple shader files for 
+      // a single application
+      m_Shader->Enable();
+      mat4 ortho = mat4::orthographic(0, screenWidth, 0, screenHeight, -1.0f, 1.0f);
+      m_Shader->setUniformMat4("pr_matrix", ortho);
+      auto loc = glGetUniformLocation(m_Shader->getRendererID(), "textures");
+      int textures[MAX_TEXTURES];
+
+      // allocating texture I.D. array
+      for (int i = 0; i < MAX_TEXTURES; i++)
+         textures[i] = i;
+      glUniform1iv(loc, MAX_TEXTURES, textures);
+
+      m_Constructed = true;
+   }
+
    void Application::Start()
    {
-      std::cout << "[Legit Engine]: Starting" << std::endl;
+      ASSERT(m_Constructed, "Must call construct method before starting");
+
+      LOG("Starting");
 
       // ImGui setup procedure
       BootImGui(m_Window);
@@ -63,7 +75,7 @@ namespace legit_engine {
       m_Window->getMousePositionNormalized(m_MousePosition.x, m_MousePosition.y);
 
       ApplicationThread();
-      std::cout << "[Legit Engine]: Stopping." << std::endl;
+      LOG("Stopping.");
       m_DebugAPI->pollPerformance();
    }
 
@@ -153,12 +165,11 @@ namespace legit_engine {
          if (!OnUserUpdate())
          {
             m_Active = false;
-            std::cout << "[Legit Engine]: User ended application." << std::endl;
+            LOG("User ended application.");
          }
          m_Renderer->end();
          m_Renderer->flush();
 
-           
          ImGui::Render();
          ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
          

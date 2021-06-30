@@ -29,11 +29,7 @@ class CircleCollisions : public Application
 {
 public:
 
-   CircleCollisions(const char* name, unsigned int screenWidth, unsigned int screenHeight)
-      : Application(name, screenWidth, screenHeight) {}
-
 protected:
-
    struct ball
    {
       float x, y;
@@ -42,8 +38,6 @@ protected:
       float radius;
       float mass;
       int id;
-
-
    };
 
    struct sLineSegment
@@ -445,7 +439,7 @@ private:
          ImGui::Text("  C  : Clear circles");
          ImGui::Text("  X  : Clear lines");
          ImGui::Text("Right click and hold to launch a circle");
-         ImGui::Text("Left click and hold to drag circles (including enpoints for lines)");
+         ImGui::Text("Left click and hold to drag circles (including endpoints for lines)");
          ImGui::SetWindowFontScale(1.25f);
          ImGui::End();
       }
@@ -574,7 +568,7 @@ public:
       {
          m_Shader->setUniform1i("dynamic_lighting", 1);
          if (theBalls.size() > 0)
-            m_Shader->setUniform2f("light_pos", Vec2(theBalls[0]->x / m_ScreenWidth, theBalls[0]->y / m_ScreenHeight));
+            m_Shader->setUniform2f("light_pos", Vec2(2 * theBalls[0]->x / m_ScreenWidth - 1.0f, 2 * theBalls[0]->y / m_ScreenHeight - 1.0f));
 
          m_Shader->setUniform1f("light_level", intensity);
       }
@@ -595,7 +589,9 @@ int main()
    double mouseX = 0, mouseY = 0;
    const char* appName = "Circle Physics Simulation";
 
-   CircleCollisions game(appName, screenWidth, screenHeight);
+   CircleCollisions game;// appName, screenWidth, screenHeight);
+
+   game.Construct(appName, screenWidth, screenHeight);
 
    game.Start();
 

@@ -15,8 +15,6 @@ class Fractal : public Application
 {
 
 public:
-   Fractal(const char* name, unsigned int screenWidth, unsigned int screenHeight)
-      : Application(name, screenWidth, screenHeight) {}
 
    // simulation constants
    Sprite canvas;
@@ -126,7 +124,7 @@ public:
 
          // toggle fullscreen
          if (m_Keys[KEY_F2].bPressed)
-            setFullScreen();
+            SetFullScreen();
          
          // exit application
          if (m_Keys[KEY_ESCAPE].bPressed)
@@ -197,7 +195,9 @@ int main()
 {
    const char* title = "Mandelbrot Viewer";
    unsigned int screenWidth = 1200, screenHeight = 800;
-   Fractal mandelbrotSet(title, screenWidth, screenHeight);
+   Fractal mandelbrotSet;
+
+   mandelbrotSet.Construct(title, screenWidth, screenHeight);
 
    mandelbrotSet.Start();
 }

@@ -70,6 +70,7 @@ namespace legit_engine {
             std::cout << "Error: Shader could not load texture @ '" << path << "'. Reason: " << reason << std::endl;
          }
       }
+
       Texture::~Texture()
       {
          glDeleteTextures(1, &m_ID);
