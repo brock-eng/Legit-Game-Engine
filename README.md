@@ -1,4 +1,4 @@
-## Legit-Game-Engine
+<img src="logo.png" width="550" height="210">
 
 Legit Game Engine is a high performance OpenGL/GLFW 2D game engine built in C++.   LGE handles all calls to GLFW's API and allows the programmer to skip much of the tedium associated with setting up an OpenGL project from scratch.  It utilizes a fast 2D Batch Renderer that features texture and color support.  LGE is capable of running ~30,000 textured 2D sprites with little to no noticeable performance drop on average modern hardware.
 
